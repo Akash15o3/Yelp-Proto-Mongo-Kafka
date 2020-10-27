@@ -73,7 +73,7 @@ class signupform extends Component {
   render() {
     let redirectVar = null;
     console.log(cookie.load("cookie"));
-    if (cookie.load("cookie")) redirectVar = <Redirect to="/home" />;
+    if (cookie.load("cookie")) redirectVar = <Redirect to="/prof" />;
     else redirectVar = <Redirect to="/login" />;
     // redirectVar = <Redirect to="/login" />;
     return (

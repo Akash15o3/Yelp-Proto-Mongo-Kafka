@@ -56,7 +56,7 @@ class Topnav extends React.Component {
               id="collasible-nav-dropdown"
             >
               <NavDropdown.Item>
-                <Link to="/cust_prof">Profile</Link>
+                <Link to="/prof">Profile</Link>
               </NavDropdown.Item>
               <NavDropdown.Item>
                 <Link to="/myapp">My Orders</Link>

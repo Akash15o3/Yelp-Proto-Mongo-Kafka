@@ -11,6 +11,7 @@ const insert = require("./insert");
 const login = require("./login");
 const cust_profile = require("./profile");
 const rest = require("./restaurant");
+const restA = require("./rest");
 
 app.set("view engine", "ejs");
 app.use("/prof_pic", express.static("public/uploads"));
@@ -94,6 +95,12 @@ app.get("/getRest", function (req, res) {
   get.getrest(req, res);
 });
 
+app.post("/rest_profile", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var get = new rest.restaurant();
+  get.gettestrest(req, res);
+});
+
 app.post("/updateRest", function (req, res) {
   console.log("Req Body : ", req.body);
   var get = new rest.restaurant();
@@ -121,6 +128,12 @@ app.post("/updatePersonal", function (req, res) {
   console.log("Req Body : ", req.body);
   var ins = new cust_profile.profile();
   ins.updatebasicinfo(req, res);
+});
+
+app.get("/getAllRest", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var rest = new restA.rest();
+  rest.getAllRest(req, res);
 });
 
 app.listen(3001, () => console.log("Server Listening on port 3001"));

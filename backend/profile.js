@@ -29,7 +29,7 @@ var profile = class profile {
       pass: req.body.pass,
       dateofbirth: req.body.dateofbirth,
       city: req.body.city,
-      state: req.body.State,
+      State: req.body.State,
       country: req.body.country,
       phonenumber: req.body.phonenumber,
       nickname: req.body.nickname,

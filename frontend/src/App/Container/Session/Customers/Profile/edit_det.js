@@ -11,6 +11,7 @@ class edit extends React.Component {
       // tprof_pic: "",
       customerID: "",
       fname: "",
+      pass: "",
       lname: "",
       email: "",
       dateofbirth: "",
@@ -112,6 +113,11 @@ class edit extends React.Component {
       myblog: e.target.value,
     });
   };
+  pass = (e) => {
+    this.setState({
+      pass: e.target.value,
+    });
+  };
 
   updatePers = (e) => {
     e.preventDefault();
@@ -130,6 +136,7 @@ class edit extends React.Component {
       findmein: this.state.findmein,
       myblog: this.state.myblog,
       email: this.state.email,
+      pass: this.state.pass,
       customerID: this.state.customerID,
       // prof_pic: this.state.tprof_pic,
     };
@@ -169,7 +176,7 @@ class edit extends React.Component {
   componentDidMount() {
     this.setState({
       setShow: this.props.show,
-
+      pass: this.props.data[0].pass,
       fname: this.props.data[0].fname,
       lname: this.props.data[0].lname,
       dateofbirth: this.props.data[0].dateofbirth,
@@ -230,6 +237,15 @@ class edit extends React.Component {
                 placeholder="Enter Nickname"
                 value={this.state.nickname}
                 onChange={this.nickname}
+              />
+            </Form.Group>
+            <Form.Group controlId="formType">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Enter Password"
+                value={this.state.pass}
+                onChange={this.pass}
               />
             </Form.Group>
             <Form.Group controlId="formCnt">

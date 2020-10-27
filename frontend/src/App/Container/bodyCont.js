@@ -6,7 +6,9 @@ import Signup from "./NoSession/Customer/signupformcust";
 import SignupC from "./NoSession/Restaurant/signupformrest";
 import Topnav from "../Navbar/topnav";
 import Restaurant_Prof from "./Session/Restaurants/Profile/container";
+import Rest_prof from "./Session/AllRestaurants/getrestaurant/profile";
 import Profile from "./Session/Customers/Profile/container";
+import Rest from "./Session/AllRestaurants";
 
 import { connect } from "react-redux";
 class bodyCont extends Component {
@@ -15,10 +17,10 @@ class bodyCont extends Component {
     var prof;
     // prof = <Profile />;
     if (this.props.getType == "Customer") {
-      // rest = <Rest />;
+      rest = <Rest />;
       prof = <Profile />;
     } else {
-      // rest = <Rest />;
+      rest = <Restaurant_Prof />;
       prof = <Restaurant_Prof />;
     }
     return (
@@ -38,7 +40,8 @@ class bodyCont extends Component {
             <Route path="/restaurantlogin" component={SigninC} />
             <Route path="/restaurantsignup" component={SignupC} />
             <Route path="/home">{rest}</Route>
-            <Route path="/cust_prof">{prof}</Route>
+            <Route path="/prof">{prof}</Route>
+            <Route path="/rest_prof/:email" component={Rest_prof} />
           </div>
         </div>
       </div>

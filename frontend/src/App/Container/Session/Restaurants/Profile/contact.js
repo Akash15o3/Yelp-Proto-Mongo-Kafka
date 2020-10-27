@@ -229,7 +229,7 @@ class Contact extends React.Component {
                 />
               </div>
               <br />
-              <div style={{ width: "30%" }} class="form-group">
+              <div style={{ width: "500px" }} class="form-group">
                 <input
                   type="text"
                   class="form-control"
@@ -240,7 +240,7 @@ class Contact extends React.Component {
               </div>
               <br />
               <br />
-              <div style={{ width: "30%" }} class="form-group">
+              <div style={{ width: "500px" }} class="form-group">
                 <input
                   type="text"
                   class="form-control"
@@ -251,7 +251,7 @@ class Contact extends React.Component {
               </div>
               <br />
               <br />
-              <div style={{ width: "30%" }} class="form-group">
+              <div style={{ width: "500px" }} class="form-group">
                 <input
                   type="text"
                   class="form-control"

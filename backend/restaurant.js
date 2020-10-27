@@ -21,6 +21,25 @@ var restaurant = class restaurant {
     });
   }
 
+  gettestrest(req, res) {
+    // console.log(req.query);
+    // console.log(req.query.email);
+    signuprestModel.findOne({ email: req.body.email }, (error, result) => {
+      if (error) {
+        res.writeHead(500, {
+          "Content-Type": "text/plain",
+        });
+        res.end();
+      } else {
+        res.writeHead(200, {
+          "Content-Type": "application/json",
+        });
+        res.end(JSON.stringify(result));
+        console.log(JSON.stringify(result));
+      }
+    });
+  }
+
   updatebasicinfo(req, res) {
     var updaterest = {
       restaurantID: req.body.id,

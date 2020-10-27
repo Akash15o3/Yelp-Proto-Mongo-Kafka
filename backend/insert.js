@@ -12,7 +12,7 @@ var insert = class insert {
       pass: req.body.pass,
       dateofbirth: " ",
       city: " ",
-      state: " ",
+      State: " ",
       country: " ",
       phonenumber: " ",
       nickname: " ",
@@ -41,7 +41,7 @@ var insert = class insert {
             res.writeHead(500, {
               "Content-Type": "text/plain",
             });
-
+            console.log("error here", error);
             res.end();
           } else {
             res.writeHead(200, {

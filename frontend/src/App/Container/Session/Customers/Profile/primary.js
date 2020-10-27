@@ -59,7 +59,7 @@ class Primary extends React.Component {
         pass,
         dateofbirth,
         city,
-        state,
+        State,
         country,
         phonenumber,
         nickname,
@@ -102,7 +102,7 @@ class Primary extends React.Component {
                             Date Of Birth:{dateofbirth}
                           </h6>
                           <h6 className="small-grey">City:{city}</h6>
-                          <h6 className="small-grey">State:{state}</h6>
+                          <h6 className="small-grey">State:{State}</h6>
                           <h6 className="small-grey">Country:{country}</h6>
                         </Row>
                         <Row>
