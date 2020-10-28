@@ -48,11 +48,6 @@ class signupform extends Component {
             error: "",
             authFlag: true,
           });
-          alert("Successful Login");
-
-          // const cookies = new cookie();
-          // cookies.set("myCat", "Pacman", { path: "/" });
-          // console.log(cookies.get("myCat")); // Pacman
         } else {
           this.setState({
             error:

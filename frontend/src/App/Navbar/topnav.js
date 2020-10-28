@@ -59,10 +59,13 @@ class Topnav extends React.Component {
                 <Link to="/prof">Profile</Link>
               </NavDropdown.Item>
               <NavDropdown.Item>
-                <Link to="/myapp">My Orders</Link>
+                <Link to="/myorders">My Orders</Link>
               </NavDropdown.Item>
               <NavDropdown.Item>
                 <Link to="/myevents">My Events</Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Link to="/mymessages">My Messages</Link>
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item>

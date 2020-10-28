@@ -28,6 +28,8 @@ class Primary extends React.Component {
             error: "",
             data: [response.data],
           });
+          sessionStorage.setItem("customerEmailForOrder", data2.email);
+          sessionStorage.setItem("customerNameForOrder", response.data.fname);
           // console.log("Test", response.data);
           //console.log("Test",this.);
         } else {

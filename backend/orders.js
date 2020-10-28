@@ -1,0 +1,125 @@
+const orderdishModel = require("./Models/orderDishModel");
+var orders = class orders {
+  insertOrder(req, res) {
+    console.log("connected");
+    var neworder = new orderdishModel({
+      restaurantEmailForOrder: req.body.restaurantEmailForOrder,
+      customerEmailForOrder: req.body.customerEmailForOrder,
+      restaurantNameForOrder: req.body.restaurantNameForOrder,
+      customerNameForOrder: req.body.customerNameForOrder,
+      dishOrder: req.body.dishOrder,
+      status: req.body.status,
+      deliveryType: req.body.deliveryType,
+      pickupStatus: req.body.pickupStatus,
+      deliveryStatus: req.body.deliveryStatus,
+      timeOfOrder: req.body.timeOfOrder,
+    });
+    console.log("yes");
+    console.log(neworder);
+    orderdishModel.findOne(
+      { restaurantEmailForOrder: req.body.restaurantEmailForOrder },
+      (error, orderdish) => {
+        if (error) {
+          res.writeHead(500, {
+            "Content-Type": "text/plain",
+          });
+
+          res.end();
+        } else {
+          neworder.save((error, data) => {
+            if (error) {
+              res.writeHead(500, {
+                "Content-Type": "text/plain",
+              });
+              console.log(error);
+              res.end();
+            } else {
+              res.writeHead(200, {
+                "Content-Type": "text/plain",
+              });
+              res.end("Order details added");
+            }
+          });
+        }
+      }
+    );
+  }
+
+  getCustOrder(req, res) {
+    console.log("My Cust Email", req.query.customerEmailForOrder);
+    orderdishModel.find(
+      { customerEmailForOrder: req.query.customerEmailForOrder },
+      (error, result) => {
+        if (error) {
+          res.writeHead(500, {
+            "Content-Type": "text/plain",
+          });
+          res.end();
+        } else {
+          res.writeHead(200, {
+            "Content-Type": "application/json",
+          });
+          res.end(JSON.stringify(result));
+        }
+      }
+    );
+  }
+
+  getRestOrder(req, res) {
+    console.log("My Rest Email", req.query.restaurantEmailForOrder);
+    orderdishModel.find(
+      { restaurantEmailForOrder: req.query.restaurantEmailForOrder },
+      (error, result) => {
+        if (error) {
+          res.writeHead(500, {
+            "Content-Type": "text/plain",
+          });
+          res.end();
+        } else {
+          res.writeHead(200, {
+            "Content-Type": "application/json",
+          });
+          res.end(JSON.stringify(result));
+        }
+      }
+    );
+  }
+
+  updateOrderStatus(req, res) {
+    var updateStatus = {
+      // customerEmailForOrder: { type: String, required: false },
+      // restaurantEmailForOrder: { type: String, required: false },
+      // customerNameForOrder: { type: String, required: false },
+      // restaurantNameForOrder: { type: String, required: false },
+      // dishOrder: { type: Array, required: false },
+      status: req.body.updatedStatus,
+      // deliveryType: { type: String, required: false },
+      // pickupStatus: { type: String, required: false },
+      // deliveryStatus: { type: String, required: false },
+      //  timeOfOrder: { type: String, required: false },
+    };
+
+    orderdishModel.updateOne(
+      { timeOfOrder: req.body.timestamp },
+      { $set: updateStatus },
+      (err, orderdish) => {
+        if (err) {
+          res.writeHead(500, {
+            "Content-Type": "text/plain",
+          });
+          console.log(err);
+          res.end();
+        } else {
+          res.writeHead(200, {
+            "Content-Type": "text/plain",
+          });
+          res.end("Order Status  updated");
+        }
+      }
+    );
+  }
+};
+
+module.exports = {
+  orders,
+};

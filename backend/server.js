@@ -12,6 +12,7 @@ const login = require("./login");
 const cust_profile = require("./profile");
 const rest = require("./restaurant");
 const restA = require("./rest");
+const orders = require("./orders");
 
 app.set("view engine", "ejs");
 app.use("/prof_pic", express.static("public/uploads"));
@@ -101,6 +102,12 @@ app.post("/rest_profile", function (req, res) {
   get.gettestrest(req, res);
 });
 
+app.post("/customer_profile", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var get = new cust_profile.profile();
+  get.gettestcust(req, res);
+});
+
 app.post("/updateRest", function (req, res) {
   console.log("Req Body : ", req.body);
   var get = new rest.restaurant();
@@ -112,6 +119,7 @@ app.post("/addDish", function (req, res) {
   var get = new rest.restaurant();
   get.adddish(req, res);
 });
+
 app.get("/getDish", function (req, res) {
   console.log("Req Body : ", req.body);
   var get = new rest.restaurant();
@@ -134,6 +142,30 @@ app.get("/getAllRest", function (req, res) {
   console.log("Req Body : ", req.body);
   var rest = new restA.rest();
   rest.getAllRest(req, res);
+});
+
+app.post("/insertOrder", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var order = new orders.orders();
+  order.insertOrder(req, res);
+});
+
+app.get("/getCustOrder", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var order = new orders.orders();
+  order.getCustOrder(req, res);
+});
+
+app.get("/getRestOrder", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var order = new orders.orders();
+  order.getRestOrder(req, res);
+});
+
+app.post("/updateOrderStatus", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var order = new orders.orders();
+  order.updateOrderStatus(req, res);
 });
 
 app.listen(3001, () => console.log("Server Listening on port 3001"));

@@ -1,21 +1,6 @@
 import React from "react";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-// class Rest extends React.Component {
-//   render() {
-//     return (
-//       <Row>
-//         <Container className={"job-listing left-10 " + this.props.show}>
-//           {this.props.name} - {this.props.location}, CA
-//           <br></br>
-//           <p>{this.props.email}</p>
-//         </Container>
-//       </Row>
-//     );
-//   }
-// }
-
-// export default Rest;
 
 class Rest extends React.Component {
   render() {

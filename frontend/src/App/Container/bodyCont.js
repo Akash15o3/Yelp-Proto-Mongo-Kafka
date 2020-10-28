@@ -7,19 +7,25 @@ import SignupC from "./NoSession/Restaurant/signupformrest";
 import Topnav from "../Navbar/topnav";
 import Restaurant_Prof from "./Session/Restaurants/Profile/container";
 import Rest_prof from "./Session/AllRestaurants/getrestaurant/profile";
+import Cust_prof from "./Session/Restaurants/Profile/Orders/getCustomer/profile";
 import Profile from "./Session/Customers/Profile/container";
 import Rest from "./Session/AllRestaurants";
+import CustOrder from "./Session/Customers/Orders/getCustOrder";
+import RestOrder from "./Session/Restaurants/Profile/Orders/getRestOrder";
 
 import { connect } from "react-redux";
 class bodyCont extends Component {
   render() {
     var rest;
+    var orders;
     var prof;
     // prof = <Profile />;
     if (this.props.getType == "Customer") {
+      orders = <CustOrder />;
       rest = <Rest />;
       prof = <Profile />;
     } else {
+      orders = <RestOrder />;
       rest = <Restaurant_Prof />;
       prof = <Restaurant_Prof />;
     }
@@ -42,6 +48,11 @@ class bodyCont extends Component {
             <Route path="/home">{rest}</Route>
             <Route path="/prof">{prof}</Route>
             <Route path="/rest_prof/:email" component={Rest_prof} />
+            <Route
+              path="/cust_prof/:customerEmailForOrder"
+              component={Cust_prof}
+            />
+            <Route path="/myorders"> {orders}</Route>
           </div>
         </div>
       </div>
