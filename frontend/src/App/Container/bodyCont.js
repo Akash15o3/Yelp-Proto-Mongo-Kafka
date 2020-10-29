@@ -16,6 +16,7 @@ import Rest_Events from "./Session/Restaurants/Profile/Events/container";
 import AllEvents from "./Session/Customers/Events/index";
 import Cust_Events from "./Session/Customers/Events/applied/index";
 import Users from "./Session/AllUsers/index";
+import Message from "./Session/Restaurants/Profile/Orders/getCustomer/profileMessage";
 import { connect } from "react-redux";
 class bodyCont extends Component {
   render() {
@@ -60,6 +61,11 @@ class bodyCont extends Component {
               path="/cust_prof/:customerEmailForOrder"
               component={Cust_prof}
             />
+            <Route
+              path="/cust_prof_message/:customerEmailForOrder"
+              component={Message}
+            />
+
             <Route path="/myorders"> {orders}</Route>
 
             <Route path="/myevents">{events}</Route>

@@ -2,10 +2,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 var eventSchema = new Schema(
   {
-    // restaurantname: { type: String, required: true },
-    customeremail: { type: String, required: false },
     restaurantemail: { type: String, required: false },
-    customername: { type: Array, required: false },
+    // customername: { type: Array, required: false },
     restaurantname: { type: String, required: false },
     eventID: { type: String, required: false },
     eventname: { type: String, required: false },

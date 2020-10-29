@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Button } from "react-bootstrap";
 import axios from "axios";
 import cookie from "react-cookies";
+import { Link } from "react-router-dom";
 
 class addEvent extends React.Component {
   constructor(props) {
@@ -179,9 +180,9 @@ class addEvent extends React.Component {
             <td>{location}</td>
             <td>{hashtag}</td>
             <td>
-              {customername.map((customer, index) => (
-                <li key={index}>{customer}</li>
-              ))}
+              <Link to={`/cust_prof/` + customeremail}>
+                <h5 className="mbottom-5">{customeremail}</h5>
+              </Link>
             </td>
           </tr>
         );
@@ -192,7 +193,7 @@ class addEvent extends React.Component {
       <Container className="background">
         <div>
           <div class="container">
-            <h2>List of My Events</h2>
+            <h2>List of Registered Events</h2>
             <table class="table">
               <thead>
                 <tr>

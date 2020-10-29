@@ -1,5 +1,6 @@
 const eventModel = require("./Models/eventModel");
 const signuprestModel = require("./Models/signuprestModel");
+const registeredeventModel = require("./Models/registeredEvents");
 
 var events = class events {
   addevent(req, res) {
@@ -50,7 +51,7 @@ var events = class events {
   }
 
   getevent(req, res) {
-    eventModel.find(
+    registeredeventModel.find(
       { restaurantemail: req.query.restaurantemail },
       (error, result) => {
         if (error) {
@@ -86,34 +87,55 @@ var events = class events {
   }
 
   applyEvent(req, res) {
-    var apply = {
-      //   customeremail: req.body.customeremail,
-      customername: req.body.customername,
-    };
-    console.log("Apply field", apply);
-    eventModel.update(
-      { eventID: req.body.eventID, restaurantname: req.body.restaurantname },
-      { $push: apply },
-      (err, event) => {
-        if (err) {
+    console.log("Body", req.body);
+    var applyevent = new registeredeventModel({
+      restaurantemail: req.body.restaurantemail,
+      restaurantname: req.body.restaurantname,
+      customeremail: req.body.customeremail,
+      customername: " ",
+      eventID: req.body.eventID,
+      eventname: req.body.eventname,
+      location: req.body.location,
+      description: req.body.description,
+      date: req.body.date,
+      timeofevent: req.body.timeofevent,
+      hashtag: req.body.hashtag,
+    });
+    console.log("yes");
+    console.log("applyevent", applyevent);
+    registeredeventModel.find(
+      { customeremail: req.body.customeremail },
+      (error, registeredevent) => {
+        if (error) {
           res.writeHead(500, {
             "Content-Type": "text/plain",
           });
-          console.log(err);
+
           res.end();
         } else {
-          res.writeHead(200, {
-            "Content-Type": "text/plain",
+          applyevent.save((error, data) => {
+            if (error) {
+              res.writeHead(500, {
+                "Content-Type": "text/plain",
+              });
+              console.log(error);
+              res.end();
+            } else {
+              res.writeHead(200, {
+                "Content-Type": "text/plain",
+              });
+              res.end("Event Applied");
+            }
           });
-          res.end("Event Successfully Applied");
         }
       }
     );
   }
 
   getAppliedEvents(req, res) {
-    eventModel.find(
-      { customeremail: req.body.customeremail },
+    console.log("TESTING ----", req.body);
+    registeredeventModel.find(
+      { customeremail: req.query.customeremail },
       (error, result) => {
         if (error) {
           res.writeHead(500, {
@@ -125,7 +147,7 @@ var events = class events {
             "Content-Type": "application/json",
           });
           res.end(JSON.stringify(result));
-          console.log(JSON.stringify(result));
+          console.log("AAAAAAA", JSON.stringify(result));
         }
       }
     );

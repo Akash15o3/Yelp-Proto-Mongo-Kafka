@@ -22,10 +22,17 @@ class Event extends React.Component {
 
     // this.setState({ selectValue: this.updatedOrderStatus });
     const data = {
-      customername: sessionStorage.getItem("customerNameForOrder"),
+      // customername: sessionStorage.getItem("customerNameForOrder"),
       customeremail: cookie.load("cookie"),
       eventID: this.props.id,
       restaurantname: this.props.restaurantname,
+      restaurantemail: this.props.restaurantemail,
+      eventname: this.props.eventname,
+      description: this.props.description,
+      timeofevent: this.props.timeofevent,
+      date: this.props.date,
+      location: this.props.location,
+      hashtag: this.props.hashtag,
     };
 
     axios
@@ -37,6 +44,7 @@ class Event extends React.Component {
             error: "",
             authFlag: true,
           });
+          alert("Event Applied");
         } else {
           this.setState({
             error:

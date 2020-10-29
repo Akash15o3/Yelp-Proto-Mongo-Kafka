@@ -82,6 +82,11 @@ class RestOrder extends React.Component {
         });
       });
   };
+
+  getTimeOfOrder = (e) => {
+    //e.preventDefault();
+    console.log("Value of Time", e);
+  };
   componentDidMount() {
     this.getRestOrder();
     this.setState({
@@ -112,7 +117,10 @@ class RestOrder extends React.Component {
                   <Row className="top-10 mleft-10">
                     <Container>
                       <Link
-                        to={`/cust_prof/` + this.props.customerEmailForOrder}
+                        id={timeOfOrder}
+                        to={`/cust_prof_message/` + customerEmailForOrder}
+                        onClick={this.getTimeOfOrder(timeOfOrder)}
+                        onR
                       >
                         <h3>Customer Name : {customerNameForOrder}</h3>
                       </Link>
