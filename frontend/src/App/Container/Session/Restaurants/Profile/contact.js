@@ -263,9 +263,9 @@ class Contact extends React.Component {
               <br />
               <div style={{ color: "#ff0000" }}>{this.state.message}</div>
               <div style={{ width: "30%" }}>
-                <button class="btn btn-success" type="submit">
+                <Button variant="danger" type="submit">
                   Add Dish
-                </button>
+                </Button>
               </div>
             </form>
           </div>

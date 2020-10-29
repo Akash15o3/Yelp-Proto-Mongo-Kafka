@@ -44,6 +44,9 @@ class Topnav extends React.Component {
             <Nav.Link className="custom-nav">
               <Link to="/events">Events</Link>
             </Nav.Link>
+            <Nav.Link className="custom-nav">
+              <Link to="/users">Users</Link>
+            </Nav.Link>
 
             <NavDropdown
               title={

@@ -55,6 +55,7 @@ class Order extends React.Component {
   render() {
     return (
       <div>
+        <br></br>
         <Button
           type="button"
           variant="danger"
@@ -62,6 +63,7 @@ class Order extends React.Component {
         >
           Click Here for Pick-Up
         </Button>
+        <br></br>
         <Button
           type="button"
           variant="danger"

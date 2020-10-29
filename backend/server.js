@@ -13,6 +13,7 @@ const cust_profile = require("./profile");
 const rest = require("./restaurant");
 const restA = require("./rest");
 const orders = require("./orders");
+const allusers = require("./allusers");
 
 app.set("view engine", "ejs");
 app.use("/prof_pic", express.static("public/uploads"));
@@ -166,6 +167,42 @@ app.post("/updateOrderStatus", function (req, res) {
   console.log("Req Body : ", req.body);
   var order = new orders.orders();
   order.updateOrderStatus(req, res);
+});
+
+app.post("/addEvent", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var get = new events.events();
+  get.addevent(req, res);
+});
+
+app.get("/getEvent", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var get = new events.events();
+  get.getevent(req, res);
+});
+
+app.get("/getAllEvents", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var get = new events.events();
+  get.getAllEvent(req, res);
+});
+
+app.get("/getAllUsers", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var get = new allusers.allusers();
+  get.getAllUsers(req, res);
+});
+
+app.post("/applyEvent", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var get = new events.events();
+  get.applyEvent(req, res);
+});
+
+app.get("/getAppliedEvents", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var get = new events.events();
+  get.getAppliedEvents(req, res);
 });
 
 app.listen(3001, () => console.log("Server Listening on port 3001"));

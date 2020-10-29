@@ -12,19 +12,25 @@ import Profile from "./Session/Customers/Profile/container";
 import Rest from "./Session/AllRestaurants";
 import CustOrder from "./Session/Customers/Orders/getCustOrder";
 import RestOrder from "./Session/Restaurants/Profile/Orders/getRestOrder";
-
+import Rest_Events from "./Session/Restaurants/Profile/Events/container";
+import AllEvents from "./Session/Customers/Events/index";
+import Cust_Events from "./Session/Customers/Events/applied/index";
+import Users from "./Session/AllUsers/index";
 import { connect } from "react-redux";
 class bodyCont extends Component {
   render() {
     var rest;
     var orders;
     var prof;
+    var events;
     // prof = <Profile />;
     if (this.props.getType == "Customer") {
+      events = <Cust_Events />;
       orders = <CustOrder />;
       rest = <Rest />;
       prof = <Profile />;
     } else {
+      events = <Rest_Events />;
       orders = <RestOrder />;
       rest = <Restaurant_Prof />;
       prof = <Restaurant_Prof />;
@@ -45,14 +51,19 @@ class bodyCont extends Component {
             <Route path="/signup" component={Signup} />
             <Route path="/restaurantlogin" component={SigninC} />
             <Route path="/restaurantsignup" component={SignupC} />
+            <Route path="/users" component={Users} />
             <Route path="/home">{rest}</Route>
             <Route path="/prof">{prof}</Route>
+
             <Route path="/rest_prof/:email" component={Rest_prof} />
             <Route
               path="/cust_prof/:customerEmailForOrder"
               component={Cust_prof}
             />
             <Route path="/myorders"> {orders}</Route>
+
+            <Route path="/myevents">{events}</Route>
+            <Route path="/events" component={AllEvents} />
           </div>
         </div>
       </div>
