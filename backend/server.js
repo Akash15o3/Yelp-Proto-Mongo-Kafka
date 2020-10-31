@@ -14,6 +14,7 @@ const rest = require("./restaurant");
 const restA = require("./rest");
 const orders = require("./orders");
 const allusers = require("./allusers");
+const follower = require("./follower");
 
 app.set("view engine", "ejs");
 app.use("/prof_pic", express.static("public/uploads"));
@@ -59,7 +60,7 @@ var options = {
 
 mongoose.connect(mongoDB, options, (err, res) => {
   if (err) {
-    console.log(err);
+    console.log("Error", err);
     console.log(`MongoDB Connection Failed`);
   } else {
     console.log(`MongoDB Connected`);
@@ -151,6 +152,12 @@ app.post("/insertOrder", function (req, res) {
   order.insertOrder(req, res);
 });
 
+app.post("/insertReview", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var get = new rest.restaurant();
+  get.insertreview(req, res);
+});
+
 app.get("/getCustOrder", function (req, res) {
   console.log("Req Body : ", req.body);
   var order = new orders.orders();
@@ -205,4 +212,29 @@ app.get("/getAppliedEvents", function (req, res) {
   get.getAppliedEvents(req, res);
 });
 
+app.get("/allusers", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var get = new allusers.allusers();
+  get.searchallusers(req, res);
+});
+
+app.get("/allusersfilter", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var get = new allusers.allusers();
+  get.filterallusers(req, res);
+});
+
+app.post("/insertFollower", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var follow = new follower.follower();
+  follow.insertFollower(req, res);
+});
+
+app.get("/getFollowers", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var follow = new follower.follower();
+  follow.getFollower(req, res);
+});
 app.listen(3001, () => console.log("Server Listening on port 3001"));
+
+module.exports = app;

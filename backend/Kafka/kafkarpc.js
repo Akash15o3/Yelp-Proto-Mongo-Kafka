@@ -52,7 +52,7 @@ KafkaRPC.prototype.makeRequest = function (topic_name, content, callback) {
         topic: topic_name,
         messages: JSON.stringify({
           correlationId: correlationId,
-          replyTo: "response_topic",
+          replyTo: "response_topic2",
           data: content,
         }),
         partition: 0,
@@ -60,10 +60,12 @@ KafkaRPC.prototype.makeRequest = function (topic_name, content, callback) {
     ];
     console.log("in response1");
     console.log(self.producer.ready);
+    console.log("checkpoint");
     self.producer.send(payloads, function (err, data) {
+      console.log("data and paylod in rpc producer.send", payloads, data);
       console.log("in response2");
-      if (err) console.log(err);
-      console.log(data);
+      if (err) console.log("Error in rpc", err);
+      console.log("is it data", data);
     });
   });
 };
@@ -75,9 +77,10 @@ KafkaRPC.prototype.setupResponseQueue = function (producer, topic_name, next) {
   console.log("1");
 
   self = this;
-
+  // console.log("in rpc producer,topicname,", producer, topic_name);
   //subscribe to messages
-  var consumer = self.connection.getConsumer("response_topic");
+  var consumer = self.connection.getConsumer("response_topic2");
+  // console.log("Consumer nodejs", consumer);
   consumer.on("message", function (message) {
     console.log("msg received");
     var data = JSON.parse(message.value);

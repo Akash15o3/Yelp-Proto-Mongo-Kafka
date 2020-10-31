@@ -28,6 +28,7 @@ class Contact extends React.Component {
     this.setState({
       dish_title: e.target.value,
     });
+    console.log(e.target.value, this.state.dish_title);
   };
   dish_cat = (e) => {
     this.setState({
@@ -91,6 +92,7 @@ class Contact extends React.Component {
       dish_des: this.state.dish_des,
       dish_ing: this.state.dish_ing,
     };
+    console.log("datadata", data);
     axios
       .post("http://localhost:3001/addDish", data)
       .then((response) => {
@@ -131,7 +133,7 @@ class Contact extends React.Component {
   };
 
   render() {
-    console.log("Mapp Function", this.state.dataList);
+    // console.log("Mapp Function", this.state.dataList);
     var details = this.state.dataList.map(
       ({
         restaurantemail,
@@ -152,17 +154,6 @@ class Contact extends React.Component {
         );
       }
     );
-    // var details = {
-    //   return: (
-    //     <tr>
-    //       <td>{this.state.dataList[0].dish_title}</td>
-    //       <td>{this.state.dataList[0].dish_cat}</td>
-    //       <td>{this.state.dataList[0].dish_price}</td>
-    //       <td>{this.state.dataList[0].dish_des}</td>
-    //       <td>{this.state.dataList[0].dish_ing}</td>
-    //     </tr>
-    //   ),
-    // };
 
     return (
       <Container className="background">

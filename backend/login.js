@@ -1,40 +1,59 @@
 // var mysql = require("mysql");
+// const { KafkaClient } = require("kafka-node");
 const mongoose = require("mongoose");
 const signupcustModel = require("./Models/signupcustModel");
 const signuprestModel = require("./Models/signuprestModel");
+var kafka = require("./Kafka/client");
 const Schema = mongoose.Schema;
 
 var login = class Login {
+  // login_cust(req, res) {
+  //   console.log("connected");
+  //   signupcustModel.findOne(
+  //     { email: req.body.username, pass: req.body.password },
+  //     (error, signupcust) => {
+  //       if (error) {
+  //         res.writeHead(500, {
+  //           "Content-Type": "text/plain",
+  //         });
+  //         res.end("Error Occured");
+  //       }
+  //       if (signupcust) {
+  //         res.cookie("cookie", signupcust.email, {
+  //           maxAge: 900000,
+  //           httpOnly: false,
+  //           path: "/",
+  //         });
+  //         req.session.signupcust = signupcust;
+  //         res.writeHead(200, {
+  //           "Content-Type": "text/plain",
+  //         });
+  //         res.end();
+  //       } else {
+  //         res.writeHead(401, {
+  //           "Content-Type": "text/plain",
+  //         });
+  //         res.end("Invalid Credentials");
+  //       }
+  //     }
+  //   );
+  // }
   login_cust(req, res) {
-    console.log("connected");
-    signupcustModel.findOne(
-      { email: req.body.username, pass: req.body.password },
-      (error, signupcust) => {
-        if (error) {
-          res.writeHead(500, {
-            "Content-Type": "text/plain",
-          });
-          res.end("Error Occured");
-        }
-        if (signupcust) {
-          res.cookie("cookie", signupcust.email, {
-            maxAge: 900000,
-            httpOnly: false,
-            path: "/",
-          });
-          req.session.signupcust = signupcust;
-          res.writeHead(200, {
-            "Content-Type": "text/plain",
-          });
-          res.end();
-        } else {
-          res.writeHead(401, {
-            "Content-Type": "text/plain",
-          });
-          res.end("Invalid Credentials");
-        }
+    kafka.make_request("login_cust", req.body, function (err, results) {
+      console.log("error in login", err);
+      console.log("in result", results);
+      if (err) {
+        res.status(500).end("Error Occured");
+      } else {
+        const payload = {
+          _id: results._id,
+          username: results.email,
+          type: "Customer",
+        };
+        res.end();
+        console.log("Payload", payload);
       }
-    );
+    });
   }
   login_rest(req, res) {
     console.log("connected");
@@ -69,120 +88,6 @@ var login = class Login {
     );
   }
 };
-
-// var login = class Login {
-//   login_cust(con, req, res) {
-//     console.log("connected");
-//     var sql =
-//       "SELECT customerID,firstname, emailid, password FROM customerDetails where emailid='" +
-//       req.body.username +
-//       "'";
-//     var pass;
-//     var id;
-//     con.query(sql, function (err, result, fields) {
-//       if (err) throw err;
-
-//       var flag = 0;
-//       for (var i = 0; i < result.length; i++) {
-//         pass = result[i].password;
-//         id = result[i].customerID;
-//         if (pass === req.body.password) {
-//           res.cookie("cookie", id);
-//           console.log(res.cookie("cookie", id));
-
-//           res.writeHead(200, {
-//             "Content-Type": "text/plain",
-//           });
-
-//           res.end(JSON.stringify(result));
-//           flag = 1;
-//         }
-//       }
-//       if (flag === 0) {
-//         res.writeHead(401, {
-//           "Content-Type": "text/plain",
-//         });
-//         res.end("UnSuccessful Login");
-//       }
-//       // console.log(result[0].emailid);
-//       // pass = result[0].password;
-//       // id = result[0].emailid;
-
-//       // if (pass === req.body.password) {
-//       //   res.cookie("cookie", id);
-//       //   console.log(res.cookie("cookie", id));
-
-//       //   res.writeHead(200, {
-//       //     "Content-Type": "text/plain",
-//       //   });
-
-//       //   res.end(JSON.stringify(result));
-//       // } else {
-//       //   res.writeHead(401, {
-//       //     "Content-Type": "text/plain",
-//       //   });
-//       //   res.end("UnSuccessful Login");
-//       // }
-//     });
-//   }
-//   login_rest(con, req, res) {
-//     console.log("connected");
-//     var sql =
-//       "SELECT restaurantID,name, emailid, password FROM restaurantDetails where emailid='" +
-//       req.body.username +
-//       "'";
-//     var pass;
-//     var id;
-//     con.query(sql, function (err, result, fields) {
-//       if (err) throw err;
-//       var flag = 0;
-//       console.log(result[0].restaurantID);
-//       pass = result[0].password;
-//       id = result[0].restaurantID;
-
-//       if (pass === req.body.password) {
-//         res.cookie("cookie", id, {
-//           maxAge: 900000,
-//           httpOnly: false,
-//           path: "/",
-//         });
-//         req.session.user = id;
-//         res.writeHead(200, {
-//           "Content-Type": "text/plain",
-//         });
-//         res.end("Successful Login");
-//       } else {
-//         res.writeHead(401, {
-//           "Content-Type": "text/plain",
-//         });
-//         res.end("UnSuccessful Login");
-//       }
-//       // for (var i = 0; i < result.length; i++) {
-//       //   pass = result[i].password;
-//       //   id = result[i].restaurantID;
-//       //   if (pass === req.body.password) {
-//       //     res.cookie("cookie", id, {
-//       //       maxAge: 900000,
-//       //       httpOnly: false,
-//       //       path: "/",
-//       //     });
-//       //     req.session.user = id;
-//       //     res.writeHead(200, {
-//       //       "Content-Type": "text/plain",
-//       //     });
-//       //     res.end("Successful Login");
-//       //     flag = 1;
-//       //   }
-//       // }
-//       // if (flag === 0) {
-//       //   res.writeHead(401, {
-//       //     "Content-Type": "text/plain",
-//       //   });
-//       //   res.end("UnSuccessful Login");
-//       // }
-//     });
-//   }
-// };
 
 module.exports = {
   login,

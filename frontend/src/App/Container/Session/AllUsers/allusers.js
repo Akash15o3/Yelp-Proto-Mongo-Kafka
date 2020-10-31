@@ -1,8 +1,46 @@
 import React from "react";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 class User extends React.Component {
+  onSubmit(ab) {
+    // e.preventDefault();
+    alert("Follow Button activated");
+    console.log("follow user name", this.props.fname);
+    const myfollowers = {
+      customername: sessionStorage.getItem("customerEmailForOrder"),
+      followcustomerfname: this.props.fname,
+      followcustomerlname: this.props.lname,
+      followcustomercity: this.props.city,
+      followcustomerstate: this.props.State,
+      followcustomercountry: this.props.country,
+      followcustomercityabout: this.props.about,
+    };
+
+    axios
+      .post("http://localhost:3001/insertFollower", myfollowers)
+      .then((response) => {
+        console.log("Status Code : ", response.status);
+        if (response.status === 200) {
+          this.setState({
+            error: "",
+            authFlag: true,
+          });
+        } else {
+          this.setState({
+            error:
+              "<p style={{color: red}}>Please enter correct credentials</p>",
+            authFlag: false,
+          });
+        }
+      })
+      .catch((e) => {
+        this.setState({
+          error: "Error while ordering" + e,
+        });
+      });
+  }
   render() {
     return (
       <Row
@@ -26,7 +64,9 @@ class User extends React.Component {
             </h6>
             <h6 className="mbottom-5">About : {this.props.about} </h6>
             <br></br>
-            <Button variant="danger">Follow</Button>
+            <Button variant="danger" onClick={() => this.onSubmit("yes")}>
+              Follow
+            </Button>
             <br></br>
           </Container>
         </Col>

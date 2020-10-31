@@ -140,6 +140,31 @@ var restaurant = class restaurant {
       }
     );
   }
+
+  insertreview(req, res) {
+    var updaterest = {
+      reviews: req.body.Review,
+    };
+    console.log(updaterest);
+    signuprestModel.updateOne(
+      { email: req.body.restaurantEmailForOrder },
+      { $set: updaterest },
+      (err, signuprest) => {
+        if (err) {
+          res.writeHead(500, {
+            "Content-Type": "text/plain",
+          });
+          console.log(err);
+          res.end();
+        } else {
+          res.writeHead(200, {
+            "Content-Type": "text/plain",
+          });
+          res.end("Review Added");
+        }
+      }
+    );
+  }
 };
 
 module.exports = {

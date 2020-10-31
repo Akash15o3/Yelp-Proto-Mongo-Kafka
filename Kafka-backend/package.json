@@ -10,6 +10,8 @@
   "author": "Akash",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.0",
+    "kafka-node": "^5.0.0",
     "mongodb": "^3.6.2",
     "mongodb-autoincrement": "^1.0.1",
     "mongoose": "^5.10.11",

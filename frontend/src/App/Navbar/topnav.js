@@ -70,6 +70,9 @@ class Topnav extends React.Component {
               <NavDropdown.Item>
                 <Link to="/mymessages">My Messages</Link>
               </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Link to="/follower">Follow List</Link>
+              </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item>
                 <Link to="/" onClick={this.handleLogout}>

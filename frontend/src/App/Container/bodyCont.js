@@ -17,6 +17,7 @@ import AllEvents from "./Session/Customers/Events/index";
 import Cust_Events from "./Session/Customers/Events/applied/index";
 import Users from "./Session/AllUsers/index";
 import Message from "./Session/Restaurants/Profile/Orders/getCustomer/profileMessage";
+import Follower from "./Session/Customers/MyFollowers/index";
 import { connect } from "react-redux";
 class bodyCont extends Component {
   render() {
@@ -67,7 +68,7 @@ class bodyCont extends Component {
             />
 
             <Route path="/myorders"> {orders}</Route>
-
+            <Route path="/follower" component={Follower} />
             <Route path="/myevents">{events}</Route>
             <Route path="/events" component={AllEvents} />
           </div>

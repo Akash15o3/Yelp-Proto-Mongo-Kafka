@@ -5,6 +5,13 @@ import cookie from "react-cookies";
 import Dish from "./dish";
 
 class Order extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      setShow: false,
+      Review: "",
+    };
+  }
   orderNow(deliveryType) {
     // e.preventDefault();
     axios.defaults.withCredentials = true;
@@ -48,6 +55,49 @@ class Order extends React.Component {
         });
       });
   }
+
+  Review = (e) => {
+    this.setState({
+      Review: e.target.value,
+    });
+    console.log(e.target.value, "Review");
+  };
+
+  onSubmitReview(e) {
+    // e.preventDefault();
+    axios.defaults.withCredentials = true;
+    const data = {
+      restaurantEmailForOrder: sessionStorage.getItem(
+        "restaurantEmailForOrder"
+      ),
+      customerEmailForOrder: sessionStorage.getItem("customerEmailForOrder"),
+      customerNameForOrder: sessionStorage.getItem("customerNameForOrder"),
+      Review: this.state.Review,
+    };
+    axios
+      .post("http://localhost:3001/insertReview", data)
+      .then((response) => {
+        console.log("Status Code : ", response.status);
+        if (response.status === 200) {
+          this.setState({
+            error: "",
+            authFlag: true,
+          });
+          alert("review added");
+        } else {
+          this.setState({
+            error:
+              "<p style={{color: red}}>Please enter correct credentials</p>",
+            authFlag: false,
+          });
+        }
+      })
+      .catch((e) => {
+        this.setState({
+          error: "Error while ordering" + e,
+        });
+      });
+  }
   componentDidMount() {
     // this.orderNow();
   }
@@ -71,6 +121,21 @@ class Order extends React.Component {
         >
           Click Here for Delivery
         </Button>
+        <br></br>
+        <form onSubmit={() => this.onSubmitReview(this.Review)}>
+          <div style={{ width: "500px" }} class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              name="Add Review"
+              onChange={this.Review}
+              placeholder="Give Feedback"
+            />
+          </div>
+          <Button variant="danger" type="submit">
+            Add Review
+          </Button>
+        </form>
       </div>
     );
   }
