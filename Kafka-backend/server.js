@@ -1,7 +1,27 @@
 var connection = new require("./kafka/Connection");
 const Database = require("./config");
 
-var Login_Cust = require("../kafka-backend/services/loginCust");
+let mongoose = require("mongoose");
+var Login_Cust = require("./services/loginCust");
+// var Login_Rest = require("./services/loginCust")
+
+const connectionString =
+  "mongodb+srv://yelp:yelp@yelp.b9er1.mongodb.net/yelp?retryWrites=true&w=majority";
+
+mongoose
+  .connect(connectionString, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    // useCreateIndex: true,
+    // poolSize: 500,
+    // bufferMaxEntries: 0,
+  })
+  .then(() => {
+    console.log("Database connection successful");
+  })
+  .catch((err) => {
+    console.error("Database connection error");
+  });
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -48,3 +68,4 @@ function handleTopicRequest(topic_name, fname) {
 }
 
 handleTopicRequest("login_cust", Login_Cust);
+// handleTopicRequest("login_rest", Login_Rest);

@@ -16,6 +16,8 @@ import Rest_Events from "./Session/Restaurants/Profile/Events/container";
 import AllEvents from "./Session/Customers/Events/index";
 import Cust_Events from "./Session/Customers/Events/applied/index";
 import Users from "./Session/AllUsers/index";
+import MessageR from "./Session/Restaurants/Profile/messagetab/index";
+import MessageC from "./Session/Customers/messagetab/index";
 import Message from "./Session/Restaurants/Profile/Orders/getCustomer/profileMessage";
 import Follower from "./Session/Customers/MyFollowers/index";
 import { connect } from "react-redux";
@@ -25,17 +27,20 @@ class bodyCont extends Component {
     var orders;
     var prof;
     var events;
+    var message;
     // prof = <Profile />;
     if (this.props.getType == "Customer") {
       events = <Cust_Events />;
       orders = <CustOrder />;
       rest = <Rest />;
       prof = <Profile />;
+      message = <MessageC />;
     } else {
       events = <Rest_Events />;
       orders = <RestOrder />;
       rest = <Restaurant_Prof />;
       prof = <Restaurant_Prof />;
+      message = <MessageR />;
     }
     return (
       <div
@@ -62,11 +67,13 @@ class bodyCont extends Component {
               path="/cust_prof/:customerEmailForOrder"
               component={Cust_prof}
             />
+
             <Route
               path="/cust_prof_message/:customerEmailForOrder"
               component={Message}
             />
 
+            <Route path="/mymessages"> {message}</Route>
             <Route path="/myorders"> {orders}</Route>
             <Route path="/follower" component={Follower} />
             <Route path="/myevents">{events}</Route>

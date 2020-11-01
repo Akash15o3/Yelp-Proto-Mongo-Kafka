@@ -47,8 +47,68 @@ var orders = class orders {
 
   getCustOrder(req, res) {
     console.log("My Cust Email", req.query.customerEmailForOrder);
+    const limit = parseInt(req.query.limit); // Make sure to parse the limit to number
+    const skip = parseInt(req.query.skip);
+
+    orderdishModel
+      .find(
+        { customerEmailForOrder: req.query.customerEmailForOrder },
+        (error, result) => {
+          if (error) {
+            res.writeHead(500, {
+              "Content-Type": "text/plain",
+            });
+            res.end();
+          } else {
+            res.writeHead(200, {
+              "Content-Type": "application/json",
+            });
+            res.end(JSON.stringify(result));
+          }
+        }
+      )
+      .skip(skip)
+      .limit(limit);
+  }
+
+  getRestOrder(req, res) {
+    console.log("My Rest Email", req.query.restaurantEmailForOrder);
+    const limit = parseInt(req.query.limit); // Make sure to parse the limit to number
+    const skip = parseInt(req.query.skip);
+    orderdishModel
+      .find(
+        { restaurantEmailForOrder: req.query.restaurantEmailForOrder },
+        (error, result) => {
+          if (error) {
+            res.writeHead(500, {
+              "Content-Type": "text/plain",
+            });
+            res.end();
+          } else {
+            res.writeHead(200, {
+              "Content-Type": "application/json",
+            });
+            res.end(JSON.stringify(result));
+            console.log(
+              "response for page of restaurant order",
+              JSON.stringify(result)
+            );
+          }
+        }
+      )
+      .skip(skip)
+      .limit(limit);
+  }
+
+  getRestByStatus(req, res) {
+    console.log("My Order Status", req.query.status);
+    // const limit = parseInt(req.query.limit); // Make sure to parse the limit to number
+    // const skip = parseInt(req.query.skip);
     orderdishModel.find(
-      { customerEmailForOrder: req.query.customerEmailForOrder },
+      {
+        status: req.query.status,
+        restaurantEmailForOrder: req.query.restaurantEmailForOrder,
+      },
       (error, result) => {
         if (error) {
           res.writeHead(500, {
@@ -60,15 +120,24 @@ var orders = class orders {
             "Content-Type": "application/json",
           });
           res.end(JSON.stringify(result));
+          console.log(
+            "response for Filter  of restaurant order",
+            JSON.stringify(result)
+          );
         }
       }
     );
   }
 
-  getRestOrder(req, res) {
-    console.log("My Rest Email", req.query.restaurantEmailForOrder);
+  getCustByStatus(req, res) {
+    console.log("My Order Status", req.query.status);
+    // const limit = parseInt(req.query.limit); // Make sure to parse the limit to number
+    // const skip = parseInt(req.query.skip);
     orderdishModel.find(
-      { restaurantEmailForOrder: req.query.restaurantEmailForOrder },
+      {
+        status: req.query.status,
+        customerEmailForOrder: req.query.customerEmailForOrder,
+      },
       (error, result) => {
         if (error) {
           res.writeHead(500, {
@@ -80,6 +149,10 @@ var orders = class orders {
             "Content-Type": "application/json",
           });
           res.end(JSON.stringify(result));
+          console.log(
+            "response for Filter  of customer order",
+            JSON.stringify(result)
+          );
         }
       }
     );

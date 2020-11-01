@@ -23,7 +23,7 @@ class FollowerDes extends React.Component {
     axios
       .get(
         "http://localhost:3001/getFollowers?customername=" +
-          cookie.load("cookie")
+          localStorage.getItem("username")
       )
       .then((response) => {
         if (response.status === 200) {

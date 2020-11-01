@@ -8,7 +8,7 @@ class edit extends React.Component {
     super(props);
     this.state = {
       setShow: false,
-      // tprof_pic: "",
+      tprof_pic: "",
       customerID: "",
       fname: "",
       pass: "",
@@ -138,7 +138,7 @@ class edit extends React.Component {
       email: this.state.email,
       pass: this.state.pass,
       customerID: this.state.customerID,
-      // prof_pic: this.state.tprof_pic,
+      prof_pic: this.state.tprof_pic,
     };
     //set the with credentials to true
     axios.defaults.withCredentials = true;
@@ -167,6 +167,23 @@ class edit extends React.Component {
         });
       });
   };
+
+  handleFileUpload = (event) => {
+    let data = new FormData();
+    console.log(event.target.files[0]);
+    data.append("file", event.target.files[0]);
+    data.append("name", "Prof_Pic");
+    axios
+      .post("http://localhost:3001/files", data)
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          tprof_pic: response.data,
+        });
+      })
+      .catch((error) => console.log("error " + error));
+  };
+
   handleClose = () => {
     this.props.handleClose();
     this.setState({ setShow: false });
@@ -192,7 +209,7 @@ class edit extends React.Component {
       myblog: this.props.data[0].myblog,
       customerID: this.props.data[0].customerID,
       email: this.props.data[0].email,
-      // tprof_pic: this.props.data[0].prof_pic,
+      tprof_pic: this.props.data[0].prof_pic,
     });
   }
   componentDidUpdate(prevProps) {
@@ -342,6 +359,13 @@ class edit extends React.Component {
                 placeholder="Enter About"
                 value={this.state.about}
                 onChange={this.about}
+              />
+            </Form.Group>
+            <Form.Group controlId="formFile">
+              <Form.Control
+                name="prof_pic"
+                type="file"
+                onChange={this.handleFileUpload}
               />
             </Form.Group>
           </Form>

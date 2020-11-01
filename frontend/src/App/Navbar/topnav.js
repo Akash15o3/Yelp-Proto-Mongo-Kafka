@@ -5,7 +5,7 @@ import cookie from "react-cookies";
 import { Redirect, Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { CustomerType, Logout } from "../../actions";
+import { CustomerType, RestaurantType, Logout } from "../../actions";
 
 class Topnav extends React.Component {
   constructor(props) {
@@ -14,17 +14,37 @@ class Topnav extends React.Component {
   }
 
   handleLogout = () => {
-    cookie.remove("cookie", { path: "/" });
+    // cookie.remove("cookie", { path: "/" });
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("username");
+    localStorage.removeItem("type");
+    localStorage.removeItem("token");
     this.props.dispatch(CustomerType());
     this.props.dispatch(Logout());
   };
 
+  componentDidMount() {
+    if (localStorage.getItem("type") == "Restaurant") {
+      this.props.dispatch(RestaurantType());
+      let data = {
+        user_id: localStorage.getItem("user_id"),
+      };
+    } else {
+      this.props.dispatch(CustomerType());
+      let data = {
+        user_id: localStorage.getItem("user_id"),
+      };
+    }
+  }
+
   render() {
     var xnav;
     let redirectVar = null;
-    if (cookie.load("cookie")) redirectVar = <Redirect to="/home" />;
-    else redirectVar = <Redirect to="/login" />;
-    if (cookie.load("cookie")) {
+    // if (cookie.load("cookie")) redirectVar = <Redirect to="/home" />;
+    if (localStorage.getItem("token")) {
+      redirectVar = <Redirect to="/home" />;
+    } else redirectVar = <Redirect to="/login" />;
+    if (localStorage.getItem("token")) {
       var prof_pic = "/profile.png";
 
       xnav = (

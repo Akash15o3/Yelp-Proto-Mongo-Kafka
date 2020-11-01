@@ -51,6 +51,8 @@ var events = class events {
   }
 
   getevent(req, res) {
+    const limit = parseInt(req.query.limit); // Make sure to parse the limit to number
+    const skip = parseInt(req.query.skip);
     registeredeventModel.find(
       { restaurantemail: req.query.restaurantemail },
       (error, result) => {
@@ -67,6 +69,8 @@ var events = class events {
         }
       }
     );
+    // .skip(skip)
+    // .limit(limit);
   }
 
   getAllEvent(req, res) {
@@ -82,6 +86,23 @@ var events = class events {
         });
         res.end(JSON.stringify(result));
         console.log(JSON.stringify(result));
+      }
+    });
+  }
+
+  getalleventssearch(req, res) {
+    eventModel.find({ eventname: req.query.eventname }, (error, result) => {
+      if (error) {
+        res.writeHead(500, {
+          "Content-Type": "text/plain",
+        });
+        res.end();
+      } else {
+        res.writeHead(200, {
+          "Content-Type": "application/json",
+        });
+        res.end(JSON.stringify(result));
+        console.log("search event result", JSON.stringify(result));
       }
     });
   }

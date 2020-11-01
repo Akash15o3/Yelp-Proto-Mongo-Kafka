@@ -16,12 +16,15 @@ class Primary extends React.Component {
 
   getInfo = () => {
     const data2 = {
-      email: cookie.load("cookie"),
+      email: localStorage.getItem("username"),
     };
     axios.defaults.withCredentials = true;
     //make a post request with the user data
     axios
-      .get("http://localhost:3001/getRest?email=" + cookie.load("cookie"))
+      .get(
+        "http://localhost:3001/getRest?email=" +
+          localStorage.getItem("username")
+      )
       .then((response) => {
         if (response.status === 200) {
           this.setState({

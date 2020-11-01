@@ -58,7 +58,8 @@ class Contact extends React.Component {
     //make a post request with the user data
     axios
       .get(
-        "http://localhost:3001/getDish?restaurantemail=" + cookie.load("cookie")
+        "http://localhost:3001/getDish?restaurantemail=" +
+          localStorage.getItem("username")
       )
       .then((response) => {
         if (response.status === 200) {

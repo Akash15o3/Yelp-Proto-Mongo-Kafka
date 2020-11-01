@@ -2,6 +2,8 @@ import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import axios from "axios";
 import cookie from "react-cookies";
+import { CustomerType } from "../../../../../../../actions";
+import { connect } from "react-redux";
 
 class Cust_Profile extends React.Component {
   constructor(props) {
@@ -13,11 +15,20 @@ class Cust_Profile extends React.Component {
       contact: "",
       email: "",
       website: "",
-      name: "",
+      fname: "",
       dishOrder: [],
+      message: "",
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
+  handleChange = (e) => {
+    this.setState({
+      message: e.target.value,
+    });
+    console.log(e.target.value, "message", this.state.message);
+  };
   getInfo = () => {
     const data = {
       email: this.props.match.params.customerEmailForOrder,
@@ -49,11 +60,11 @@ class Cust_Profile extends React.Component {
             email: response.data.email,
           });
           console.log("Response Post Call", response);
-          console.log(
-            "Email Value and time",
-            this.props.match.params.customerEmailForOrder
-          );
-          console.log("datafor message", sessionStorage.getItem("timeOfOrder"));
+          // console.log(
+          //   "Email Value and time",
+          //   this.props.match.params.customerEmailForOrder
+          // );
+          // console.log("datafor message", sessionStorage.getItem("timeOfOrder"));
         } else {
           this.setState({
             error:
@@ -69,15 +80,44 @@ class Cust_Profile extends React.Component {
       });
   };
 
-  onSubmit(e) {
+  handleSubmit(e) {
     let data = {
       restaurantemailformessage: sessionStorage.getItem(
         "restaurantEmailForOrder"
       ),
-      customeremailformessage: this.email,
-      timestamp: new Date(),
+      restaurantnameformessage: sessionStorage.getItem(
+        "restaurantNameForOrder"
+      ),
+      customeremailformessage: this.props.match.params.customerEmailForOrder,
+      customernameformessage: this.state.fname,
+      message: this.state.message,
+      sender: sessionStorage.getItem("typeofuser"),
     };
-    console.log("datafor message", sessionStorage.getItem("timeForOrder"));
+    console.log("datafor message", data);
+
+    axios
+      .post("http://localhost:3001/insertMessage", data)
+      .then((response) => {
+        console.log("Status Code : ", response.status);
+        if (response.status === 200) {
+          this.setState({
+            error: "",
+            authFlag: true,
+          });
+        } else {
+          this.setState({
+            error:
+              "<p style={{color: red}}>Please enter correct credentials</p>",
+            authFlag: false,
+          });
+        }
+      })
+      .catch((e) => {
+        this.setState({
+          error: "Error while ordering" + e,
+        });
+      });
+    e.preventDefault();
   }
 
   componentDidMount() {
@@ -171,13 +211,15 @@ class Cust_Profile extends React.Component {
             </Row>
             <br></br>
             <Row className="all-row">
-              <form onSubmit={this.onSubmit}>
+              <form onSubmit={this.handleSubmit}>
                 <div style={{ width: "500px" }} class="form-group">
                   <input
                     type="text"
                     class="form-control"
                     name="Message"
                     placeholder="Message"
+                    onChange={this.handleChange}
+                    value={this.state.message}
                   />
                 </div>
                 <Button variant="danger" type="submit">
@@ -191,5 +233,11 @@ class Cust_Profile extends React.Component {
     );
   }
 }
+
+// const mapStateToProps = function (state) {
+//   return {
+//     getType: state.getType,
+//   };
+// };
 
 export default Cust_Profile;

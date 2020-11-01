@@ -23,7 +23,11 @@ class addEvent extends React.Component {
       hashtag: "",
       message: "",
       dataList: [],
+      limit: 2,
+      skip: 0,
     };
+    // this.nextPage = this.nextPage.bind(this);
+    // this.previousPage = this.previousPage.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     // this.onChange = this.onChange.bind(this);
   }
@@ -77,7 +81,11 @@ class addEvent extends React.Component {
     axios
       .get(
         "http://localhost:3001/getEvent?restaurantemail=" +
-          cookie.load("cookie")
+          localStorage.getItem("username") +
+          "?limit=" +
+          this.state.limit +
+          "&skip=" +
+          this.state.skip
       )
       .then((response) => {
         if (response.status === 200) {
@@ -103,7 +111,7 @@ class addEvent extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     let data = {
-      restaurantemail: cookie.load("cookie"),
+      restaurantemail: localStorage.getItem("username"),
       restaurantname: this.state.restaurantname,
       eventID: this.state.eventID,
       eventname: this.state.eventname,
@@ -127,6 +135,22 @@ class addEvent extends React.Component {
         });
       });
   }
+
+  // nextPage() {
+  //   console.log("In The Next Function", this.state.skip, this.state.limit);
+
+  //   this.state.skip = this.state.skip + this.state.limit;
+  //   console.log("After Next Function", this.state.skip, this.state.limit);
+  //   this.geteventInfo();
+  // }
+  // previousPage() {
+  //   console.log("In The Previous Function", this.state.skip, this.state.limit);
+  //   if (this.state.skip > 0) {
+  //     this.state.skip = this.state.skip - this.state.limit;
+
+  //     this.geteventInfo();
+  //   }
+  // }
 
   componentWillMount() {
     this.geteventInfo();
@@ -193,7 +217,7 @@ class addEvent extends React.Component {
       <Container className="background">
         <div>
           <div class="container">
-            <h2>List of Registered Events</h2>
+            <h2>User List That Registered for Event</h2>
             <table class="table">
               <thead>
                 <tr>

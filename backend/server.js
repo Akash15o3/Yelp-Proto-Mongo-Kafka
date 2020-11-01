@@ -15,6 +15,7 @@ const restA = require("./rest");
 const orders = require("./orders");
 const allusers = require("./allusers");
 const follower = require("./follower");
+const messages = require("./messages");
 
 app.set("view engine", "ejs");
 app.use("/prof_pic", express.static("public/uploads"));
@@ -65,6 +66,24 @@ mongoose.connect(mongoDB, options, (err, res) => {
   } else {
     console.log(`MongoDB Connected`);
   }
+});
+
+storage = multer.diskStorage({
+  destination: "./public/uploads",
+  filename: function (req, file, cb) {
+    console.log("file send", file);
+    cb(null, `${new Date()}-${file.fieldname}.${file.mimetype.split("/")[1]}`);
+  },
+});
+
+upload = multer({ storage });
+
+app.post("/files", upload.single("file"), (req, res) => {
+  console.log("Req Body for picture: ", req.body);
+  res.writeHead(200, {
+    "Content-Type": "application/json",
+  });
+  res.end(`${new Date()}-${req.body.name}`);
 });
 
 app.post("/signupcust", function (req, res) {
@@ -146,6 +165,12 @@ app.get("/getAllRest", function (req, res) {
   rest.getAllRest(req, res);
 });
 
+app.get("/allrestsearch", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var rest = new restA.rest();
+  rest.getAllRestSearch(req, res);
+});
+
 app.post("/insertOrder", function (req, res) {
   console.log("Req Body : ", req.body);
   var order = new orders.orders();
@@ -170,6 +195,17 @@ app.get("/getRestOrder", function (req, res) {
   order.getRestOrder(req, res);
 });
 
+app.get("/orderbystatus", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var order = new orders.orders();
+  order.getRestByStatus(req, res);
+});
+
+app.get("/orderbystatuscustomer", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var order = new orders.orders();
+  order.getCustByStatus(req, res);
+});
 app.post("/updateOrderStatus", function (req, res) {
   console.log("Req Body : ", req.body);
   var order = new orders.orders();
@@ -212,6 +248,12 @@ app.get("/getAppliedEvents", function (req, res) {
   get.getAppliedEvents(req, res);
 });
 
+app.get("/alleventssearch", function (req, res) {
+  console.log("Req Body search : ", req.body);
+  var get = new events.events();
+  get.getalleventssearch(req, res);
+});
+
 app.get("/allusers", function (req, res) {
   console.log("Req Body : ", req.body);
   var get = new allusers.allusers();
@@ -234,6 +276,18 @@ app.get("/getFollowers", function (req, res) {
   console.log("Req Body : ", req.body);
   var follow = new follower.follower();
   follow.getFollower(req, res);
+});
+
+app.post("/insertMessage", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var message = new messages.messages();
+  message.insertmessage(req, res);
+});
+
+app.get("/getAllMessages", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var message = new messages.messages();
+  message.getmessages(req, res);
 });
 app.listen(3001, () => console.log("Server Listening on port 3001"));
 

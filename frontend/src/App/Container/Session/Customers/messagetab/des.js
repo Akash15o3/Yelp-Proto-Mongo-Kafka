@@ -1,31 +1,23 @@
 import React from "react";
 import { Col, Row, Container, Button } from "react-bootstrap";
-// import Orderedrest from "./orderedRest";
-// import Ordered from "./ordered";
 import cookie from "react-cookies";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-
-import Event from "./events";
-
+import User from "./allmessage";
 import axios from "axios";
 
-class EventDes extends React.Component {
+class MessageDes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
-      error: "",
-      customeremail: "",
     };
-    // this.submitrest = this.submitrest.bind(this);
   }
-
   getInfo = () => {
     axios
       .get(
-        "http://localhost:3001/getAppliedEvents?customeremail=" +
-          localStorage.getItem("username")
+        "http://localhost:3001/getAllMessages?customeremail=" +
+          sessionStorage.getItem("customerEmailForOrder")
       )
       .then((response) => {
         if (response.status === 200) {
@@ -33,7 +25,7 @@ class EventDes extends React.Component {
             error: "",
             data: response.data,
           });
-          console.log("Event Data", response.data);
+          console.log("data", this.state.data);
         } else {
           this.setState({
             error:
@@ -48,47 +40,44 @@ class EventDes extends React.Component {
         });
       });
   };
+
   componentDidMount() {
+    // this.setState({
+    //   fname: this.props.data[0].fname,
+    // });
     this.getInfo();
   }
 
   render() {
-    var printEvent = this.state.data.map(
+    var printMessage = this.state.data.map(
       ({
-        restaurantemail,
         restaurantname,
-        customeremail,
+        restaurantemail,
         customername,
-        eventID,
-        eventname,
-        description,
-        timeofevent,
-        date,
-        location,
-        hashtag,
+        customeremail,
+        message,
       }) => {
         return (
-          <Event
-            id={eventID}
-            key={eventID}
+          <User
+            id={restaurantemail}
+            key={restaurantemail}
+            restaurantname={restaurantname}
             restaurantemail={restaurantemail}
             customername={customername}
             customeremail={customeremail}
-            location={location}
-            restaurantname={restaurantname}
-            eventname={eventname}
-            description={description}
-            timeofevent={timeofevent}
-            date={date}
-            hashtag={hashtag}
-            timeofevent={timeofevent}
+            message={message}
           />
         );
       }
     );
-
-    return <Container>{printEvent}</Container>;
+    return (
+      <Container>
+        <h2>My Messages</h2>
+        <br></br>
+        {printMessage}{" "}
+      </Container>
+    );
   }
 }
 
-export default EventDes;
+export default MessageDes;

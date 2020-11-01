@@ -5,6 +5,7 @@ import axios from "axios";
 import cookie from "react-cookies";
 import { connect } from "react-redux";
 import { CustomerType } from "../../../../actions";
+import jwt_decode from "jwt-decode";
 
 class signupform extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class signupform extends Component {
       password: "",
       authFlag: false,
       error: "",
+      jwt_token: "",
     };
     this.usernameChangeHandler = this.usernameChangeHandler.bind(this);
     this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
@@ -47,7 +49,10 @@ class signupform extends Component {
           this.setState({
             error: "",
             authFlag: true,
+            jwt_token: response.data,
           });
+          sessionStorage.setItem("typeofuser", "Restaurant");
+          sessionStorage.setItem("restaurantEmailForOrder", data.username);
         } else {
           this.setState({
             error:
@@ -64,8 +69,15 @@ class signupform extends Component {
   };
   render() {
     let redirectVar = null;
-    if (cookie.load("cookie")) redirectVar = <Redirect to="/prof" />;
-    else redirectVar = <Redirect to="/restaurantlogin" />;
+    // if (cookie.load("cookie")) redirectVar = <Redirect to="/prof" />;
+    if (this.state.jwt_token.length > 0) {
+      var decoded = jwt_decode(this.state.jwt_token.split(" ")[1]);
+      localStorage.setItem("token", this.state.jwt_token);
+      localStorage.setItem("user_id", decoded._id);
+      localStorage.setItem("username", decoded.username);
+      localStorage.setItem("type", decoded.type);
+      redirectVar = <Redirect to="/prof" />;
+    } else redirectVar = <Redirect to="/restaurantlogin" />;
     return (
       <div>
         {redirectVar}

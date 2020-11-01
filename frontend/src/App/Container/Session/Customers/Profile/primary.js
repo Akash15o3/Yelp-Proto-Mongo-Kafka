@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Col, Row, Button } from "react-bootstrap";
+import { Container, Col, Row, Button, Form } from "react-bootstrap";
 import Desc from "./description";
 
 import Contact from "./contact";
@@ -11,17 +11,36 @@ class Primary extends React.Component {
     super(props);
     this.state = {
       data: [],
+      prof_pic: "",
     };
   }
 
+  // handleFileUpload = (event) => {
+  //   let data = new FormData();
+  //   console.log(event.target.files[0]);
+  //   data.append("file", event.target.files[0]);
+  //   data.append("name", "Prof_Pic");
+  //   axios
+  //     .post(`files`, data)
+  //     .then((response) => {
+  //       console.log(response);
+  //       this.setState({
+  //         tprof_pic: response.data,
+  //       });
+  //     })
+  //     .catch((error) => console.log("error " + error));
+  // };
   getInfo = () => {
     const data2 = {
-      email: cookie.load("cookie"),
+      email: localStorage.getItem("username"),
     };
     axios.defaults.withCredentials = true;
     //make a post request with the user data
     axios
-      .get("http://localhost:3001/cust_profile?email=" + cookie.load("cookie"))
+      .get(
+        "http://localhost:3001/cust_profile?email=" +
+          localStorage.getItem("username")
+      )
       .then((response) => {
         if (response.status === 200) {
           this.setState({
@@ -30,6 +49,7 @@ class Primary extends React.Component {
           });
           sessionStorage.setItem("customerEmailForOrder", data2.email);
           sessionStorage.setItem("customerNameForOrder", response.data.fname);
+
           // console.log("Test", response.data);
           //console.log("Test",this.);
         } else {
@@ -71,19 +91,25 @@ class Primary extends React.Component {
         findmein,
         myblog,
 
-        // prof_pic,
+        prof_pic,
       }) => {
-        // var pic;
-        // if (prof_pic == "" || prof_pic == null || prof_pic == undefined) {
-        //   pic = "/profile.png";
-        // } else {
-        //   pic =
-        //     `http://localhost:3001/prof_pic/` +
-        //     prof_pic.replace("prof_pic", "file") +
-        //     `.jpeg`;
-        // }
+        var pic;
+        if (prof_pic == "" || prof_pic == null || prof_pic == undefined) {
+          pic = "/profile.png";
+        } else {
+          pic =
+            `http://localhost:3001/prof_pic/` +
+            prof_pic.replace("prof_pic", "file") +
+            `.jpeg`;
+        }
         return (
           <Container key={customerID}>
+            <img
+              src={prof_pic}
+              alt="user pic"
+              style={{ width: 100 + "px", borderRadius: 50 + "%" }}
+            />
+
             <Row className={"padding-bottom-15 background"}>
               <Col xl={11} style={{ width: 100 + "%" }}>
                 <Container>

@@ -23,7 +23,7 @@ class Event extends React.Component {
     // this.setState({ selectValue: this.updatedOrderStatus });
     const data = {
       // customername: sessionStorage.getItem("customerNameForOrder"),
-      customeremail: cookie.load("cookie"),
+      customeremail: localStorage.getItem("username"),
       eventID: this.props.id,
       restaurantname: this.props.restaurantname,
       restaurantemail: this.props.restaurantemail,

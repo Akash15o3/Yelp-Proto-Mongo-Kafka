@@ -5,6 +5,7 @@ import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import cookie from "react-cookies";
 import { connect } from "react-redux";
+import jwt_decode from "jwt-decode";
 // import { getFName } from "../../../../actions";
 import { getusernamecust, RestaurantType } from "../../../../actions";
 // import { getProfPic } from "../../../../actions";
@@ -16,6 +17,7 @@ class signupform extends Component {
       password: "",
       authFlag: false,
       error: "",
+      jwt_token: "",
     };
     this.usernameChangeHandler = this.usernameChangeHandler.bind(this);
     this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
@@ -47,12 +49,14 @@ class signupform extends Component {
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {
-          getusernamecust = response.data[0].email;
+          sessionStorage.setItem("typeofuser", "Customer");
+          // getusernamecust = response.data[0].email;
           // this.props.dispatch(getFName(response.data[0].First_Name));
           // this.props.dispatch(getProfPic(response.data[0].prof_pic));
           this.setState({
             error: "",
             authFlag: true,
+            jwt_token: response.data,
           });
           alert("Successful Login");
         } else {
@@ -73,8 +77,15 @@ class signupform extends Component {
   render() {
     let redirectVar = null;
     console.log(cookie.load("cookie"));
-    if (cookie.load("cookie")) redirectVar = <Redirect to="/prof" />;
-    else redirectVar = <Redirect to="/login" />;
+    // if (cookie.load("cookie")) redirectVar = <Redirect to="/prof" />;
+    if (this.state.jwt_token.length > 0) {
+      var decoded = jwt_decode(this.state.jwt_token.split(" ")[1]);
+      localStorage.setItem("token", this.state.jwt_token);
+      localStorage.setItem("user_id", decoded._id);
+      localStorage.setItem("username", decoded.username);
+      localStorage.setItem("type", decoded.type);
+      redirectVar = <Redirect to="/prof" />;
+    } else redirectVar = <Redirect to="/login" />;
     // redirectVar = <Redirect to="/login" />;
     return (
       <div>

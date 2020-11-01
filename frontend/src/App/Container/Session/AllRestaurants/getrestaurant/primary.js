@@ -65,7 +65,6 @@ class Primary extends React.Component {
   };
 
   componentDidMount() {
-    //console.log(cookie.load('cookie'));
     this.getInfo();
   }
 

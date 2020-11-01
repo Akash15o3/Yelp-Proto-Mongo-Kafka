@@ -168,12 +168,6 @@ class UserDes extends React.Component {
     }
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //     // Try to avoid doing this, is pretty easy to mess up things with the lifecycle
-  //     // So instead, learn to use react hooks, you can read my guide on hooks here: https://softwareontheroad.com/react-hooks/
-  //     //
-  // }
-
   componentDidMount() {
     // this.setState({
     //   fname: this.props.data[0].fname,
@@ -354,10 +348,10 @@ class UserDes extends React.Component {
         {printUser}
         <br></br>
         <div style={{ "margin-top": "30px" }}>
-          <Button onClick={this.nextPage}> Next Page </Button>
           <Button class="fa-pull-right" onClick={this.previousPage}>
             Previous Page
           </Button>
+          <Button onClick={this.nextPage}> Next Page </Button>
         </div>
       </Container>
     );
