@@ -9,7 +9,7 @@ class User extends React.Component {
     alert("Follow Button activated");
     console.log("follow user name", this.props.fname);
     const myfollowers = {
-      customername: sessionStorage.getItem("customerEmailForOrder"),
+      customername: localStorage.getItem("username"),
       followcustomerfname: this.props.fname,
       followcustomerlname: this.props.lname,
       followcustomercity: this.props.city,
@@ -17,7 +17,9 @@ class User extends React.Component {
       followcustomercountry: this.props.country,
       followcustomercityabout: this.props.about,
     };
-
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
     axios
       .post("http://localhost:3001/insertFollower", myfollowers)
       .then((response) => {

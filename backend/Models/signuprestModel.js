@@ -13,6 +13,8 @@ var signupRestSchema = new Schema(
 
     reviews: { type: String, required: true },
     website: { type: String, required: true },
+    prof_pic: { type: String, required: false },
+    dish_pic: { type: String, required: false },
   },
   {
     versionKey: false,

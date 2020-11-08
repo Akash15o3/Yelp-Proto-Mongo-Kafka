@@ -11,45 +11,38 @@ class Primary extends React.Component {
     super(props);
     this.state = {
       data: [],
-      prof_pic: "",
+      prof_pic: "file",
     };
   }
 
-  // handleFileUpload = (event) => {
-  //   let data = new FormData();
-  //   console.log(event.target.files[0]);
-  //   data.append("file", event.target.files[0]);
-  //   data.append("name", "Prof_Pic");
-  //   axios
-  //     .post(`files`, data)
-  //     .then((response) => {
-  //       console.log(response);
-  //       this.setState({
-  //         tprof_pic: response.data,
-  //       });
-  //     })
-  //     .catch((error) => console.log("error " + error));
-  // };
   getInfo = () => {
     const data2 = {
       email: localStorage.getItem("username"),
     };
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
     //make a post request with the user data
     axios
       .get(
-        "http://localhost:3001/cust_profile?email=" +
+        "http://localhost:3001/cust_profile/cust_profile?email=" +
           localStorage.getItem("username")
       )
       .then((response) => {
         if (response.status === 200) {
           this.setState({
             error: "",
-            data: [response.data],
+            data: response.data,
           });
           sessionStorage.setItem("customerEmailForOrder", data2.email);
-          sessionStorage.setItem("customerNameForOrder", response.data.fname);
+          // sessionStorage.setItem("customerNameForOrder", response.data.fname);
+          console.log(
+            "name trying",
+            response.data.fname,
 
+            this.state.data.fname
+          );
           // console.log("Test", response.data);
           //console.log("Test",this.);
         } else {
@@ -101,11 +94,13 @@ class Primary extends React.Component {
             `http://localhost:3001/prof_pic/` +
             prof_pic.replace("prof_pic", "file") +
             `.jpeg`;
+          console.log("pic in Primary", pic);
         }
+
         return (
           <Container key={customerID}>
             <img
-              src={prof_pic}
+              src={pic}
               alt="user pic"
               style={{ width: 100 + "px", borderRadius: 50 + "%" }}
             />
@@ -184,3 +179,9 @@ class Primary extends React.Component {
 }
 
 export default Primary;
+
+// <form onSubmit={this.handleSubmit}>
+// <h4>Profile Picture Upload</h4>
+//  <input type="file" name="myImage" onChange={this.handleChange} />
+//  <button type="submit">Upload</button>
+// </form>

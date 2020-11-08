@@ -16,6 +16,7 @@ class CustOrder extends React.Component {
       status: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.doDesc = this.doDesc.bind(this);
     this.handleChangeFilter = this.handleChangeFilter.bind(this);
     this.clearFlag = this.clearFlag.bind(this);
     this.nextPage = this.nextPage.bind(this);
@@ -72,6 +73,45 @@ class CustOrder extends React.Component {
     this.setState({ filterflag: 0 });
     this.getCustOrder();
     e.preventDefault();
+  }
+
+  doDesc(e) {
+    axios.defaults.withCredentials = true;
+
+    const orderData = {
+      customerEmailForOrder: localStorage.getItem("username"),
+    };
+
+    axios
+      .get(
+        "http://localhost:3001/getCustOrderDesc?customerEmailForOrder=" +
+          orderData.customerEmailForOrder +
+          "&limit=" +
+          this.state.limit +
+          "&skip=" +
+          this.state.skip
+      )
+      .then((response) => {
+        console.log("Status Code : ", response.status);
+        if (response.status === 200) {
+          this.setState({
+            error: "",
+            dataList: response.data,
+          });
+          // console.log("Order Data of customers", dataList);
+        } else {
+          this.setState({
+            error:
+              "<p style={{color: red}}>Please enter correct credentials</p>",
+            authFlag: false,
+          });
+        }
+      })
+      .catch((e) => {
+        this.setState({
+          error: "Error while ordering" + e,
+        });
+      });
   }
 
   getCustOrder = () => {
@@ -285,10 +325,8 @@ class CustOrder extends React.Component {
           Clear Search
         </Button>
         <br></br>
-        <h4>Sort By Time Of Event</h4>
-        <Button variant="danger" onClick={this.doAsc}>
-          Ascending
-        </Button>
+        <h4>Sort By Time Of Order (By default Ascending)</h4>
+
         <br></br>
         <Button variant="danger" onClick={this.doDesc}>
           Descending

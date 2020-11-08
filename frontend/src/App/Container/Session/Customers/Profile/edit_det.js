@@ -8,7 +8,7 @@ class edit extends React.Component {
     super(props);
     this.state = {
       setShow: false,
-      tprof_pic: "",
+      prof_pic: "",
       customerID: "",
       fname: "",
       pass: "",
@@ -25,8 +25,31 @@ class edit extends React.Component {
       about: "",
       findmein: "",
       myblog: "",
+      file: null,
+      backendnProfName: "",
     };
+    // this.onFormSubmitPicture = this.onFormSubmitPicture.bind(this);
+    // this.onChangePicture = this.onChangePicture.bind(this);
   }
+  // onFormSubmitPicture(e) {
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   formData.append("myImage", this.state.file);
+  //   const config = {
+  //     headers: {
+  //       "content-type": "multipart/form-data",
+  //     },
+  //   };
+  //   axios
+  //     .post("http://localhost:3001/upload", formData, config)
+  //     .then((response) => {
+  //       alert("The file is successfully uploaded");
+  //     })
+  //     .catch((error) => {});
+  // }
+  // onChangePicture(e) {
+  //   this.setState({ file: e.target.files[0] });
+  // }
   customerID = (e) => {
     this.setState({
       customerID: e.target.value,
@@ -138,13 +161,16 @@ class edit extends React.Component {
       email: this.state.email,
       pass: this.state.pass,
       customerID: this.state.customerID,
-      prof_pic: this.state.tprof_pic,
+      prof_pic: this.state.prof_pic,
     };
     //set the with credentials to true
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
     //make a post request with the user data
     axios
-      .post("http://localhost:3001/updatePersonal", data)
+      .post("http://localhost:3001/cust_profile/updatePersonal", data)
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {
@@ -170,16 +196,53 @@ class edit extends React.Component {
 
   handleFileUpload = (event) => {
     let data = new FormData();
-    console.log(event.target.files[0]);
+    console.log("File Data --", event.target.files[0]);
     data.append("file", event.target.files[0]);
-    data.append("name", "Prof_Pic");
+    data.append("name", "prof_pic");
+    console.log("File Data After Append --", data);
+    // console.log("path:", System.IO.Path.GetFilename(event.target.value));
+    this.state.backendnProfName = event.target.value;
+    this.state.backendnProfName = this.state.backendnProfName.replace(
+      /C:\\fakepath\\/,
+      ""
+    );
+    console.log("+++++++++++++++", this.state.backendnProfName);
     axios
       .post("http://localhost:3001/files", data)
       .then((response) => {
-        console.log(response);
+        console.log("profile pic upload response", data);
         this.setState({
-          tprof_pic: response.data,
+          prof_pic: response.data,
         });
+        let data2 = {
+          prof_pic: this.state.backendnProfName,
+          customeremail: localStorage.getItem("username"),
+        };
+        // axios.defaults.headers.common["authorization"] = localStorage.getItem(
+        //   "token"
+        // );
+        axios
+          .post("http://localhost:3001/updateProfPic", data2)
+          .then((response) => {
+            console.log("Status Code : ", response.status);
+            if (response.status === 200) {
+              this.setState({
+                error: "",
+                authFlag: true,
+              });
+            } else {
+              this.setState({
+                error:
+                  "<p style={{color: red}}>Please enter correct credentials</p>",
+                authFlag: false,
+              });
+            }
+          })
+          .catch((e) => {
+            this.setState({
+              error: "Please enter correct credentials" + e,
+            });
+          });
       })
       .catch((error) => console.log("error " + error));
   };
@@ -209,8 +272,10 @@ class edit extends React.Component {
       myblog: this.props.data[0].myblog,
       customerID: this.props.data[0].customerID,
       email: this.props.data[0].email,
-      tprof_pic: this.props.data[0].prof_pic,
+      prof_pic: this.props.data[0].prof_pic,
     });
+
+    console.log("prof pic name", this.state.prof_pic);
   }
   componentDidUpdate(prevProps) {
     if (prevProps.show != this.props.show) {
@@ -370,6 +435,7 @@ class edit extends React.Component {
             </Form.Group>
           </Form>
         </Modal.Body>
+
         <Modal.Footer>
           <Button variant="danger" onClick={this.handleClose}>
             Close
@@ -393,3 +459,9 @@ export default edit;
 //                 onChange={this.email}
 //               />
 //             </Form.Group>
+
+// <form onSubmit={this.onFormSubmitPicture}>
+//             <h4>Profile Picture Upload</h4>
+//             <input type="file" name="myImage" onChange={this.onChangePicture} />
+//             <button type="submit">Upload</button>
+//           </form>

@@ -21,6 +21,8 @@ var insert = class insert {
       about: " ",
       findmein: " ",
       myblog: " ",
+      prof_pic: " ",
+      dish_pic: " ",
     });
     signupcustModel.findOne({ email: req.body.email }, (error, signupcust) => {
       if (error) {
@@ -66,6 +68,7 @@ var insert = class insert {
       timing: " ",
       reviews: " ",
       website: " ",
+      prof_pic: " ",
     });
     console.log("yes");
     console.log(newrest);

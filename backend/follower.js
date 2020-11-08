@@ -1,5 +1,45 @@
 const followerModel = require("./Models/followerModel");
 
+const signupcustModel = require("./Models/signupcustModel");
+var express = require("express");
+const router = express.Router();
+const { checkAuth } = require("./passport");
+var kafka = require("./Kafka/client");
+
+// router.post("/insertFollower", checkAuth, (req, res) => {
+//   kafka.make_request("insertFollower", req.query, function (err, results) {
+//     console.log("in result");
+//     console.log(results);
+//     if (err) {
+//       res.status(500).end("Error Occured");
+//     } else {
+//       //console.log("Inside else");
+//       //console.log(results);
+//       var JSONStr = JSON.stringify(results);
+//       console.log("JSON stringify sent to front end", JSONStr);
+//       res.status(200).end(JSONStr);
+//     }
+//   });
+// });
+
+// router.get("/getFollowers", checkAuth, (req, res) => {
+//   kafka.make_request("getFollowers", req.query, function (err, results) {
+//     console.log("in result");
+//     console.log(results);
+//     if (err) {
+//       res.status(500).end("Error Occured");
+//     } else {
+//       //console.log("Inside else");
+//       //console.log(results);
+//       var JSONStr = JSON.stringify(results);
+//       console.log("JSON stringify sent to front end", JSONStr);
+//       res.status(200).end(JSONStr);
+//     }
+//   });
+// });
+
+// module.exports = router;
+
 var follower = class follower {
   insertFollower(req, res) {
     console.log("connected");

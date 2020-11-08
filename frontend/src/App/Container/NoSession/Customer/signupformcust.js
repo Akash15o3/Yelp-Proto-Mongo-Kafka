@@ -69,6 +69,7 @@ class signupform extends Component {
             error: "",
             authFlag: true,
           });
+          sessionStorage.setItem("customerNameForOrder", this.state.fname);
           alert("Successfully Created! Please Conitnue to Login");
         } else {
           this.setState({

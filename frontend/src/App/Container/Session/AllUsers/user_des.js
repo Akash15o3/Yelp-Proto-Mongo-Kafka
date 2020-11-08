@@ -56,9 +56,12 @@ class UserDes extends React.Component {
   };
 
   getInfo = () => {
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
     axios
       .get(
-        "http://localhost:3001/getAllUsers?limit=" +
+        "http://localhost:3001/users/getAllUsers?limit=" +
           this.state.limit +
           "&skip=" +
           this.state.skip
@@ -89,9 +92,11 @@ class UserDes extends React.Component {
     console.log("name", this.state.fname);
     // console.log(this.fnameChange, this.fnameChange.firstname);
     axios.defaults.withCredentials = true;
-
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
     axios
-      .get("http://localhost:3001/allusers?fname=" + this.state.fname)
+      .get("http://localhost:3001/users/allusers?fname=" + this.state.fname)
       .then((response) => {
         if (response.status === 200) {
           this.setState({
@@ -119,6 +124,9 @@ class UserDes extends React.Component {
 
   handleSubmitFilter(e1) {
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
     axios
       .get("http://localhost:3001/allusersfilter?city=" + this.state.city)
       .then((response) => {

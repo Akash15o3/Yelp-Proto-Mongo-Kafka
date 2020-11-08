@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 function handle_request(msg, callback) {
   console.log("Inside book kafka backend");
-  Rest_Profile.findOne({ email: msg.username, password: msg.password })
+  Rest_Profile.findOne({ email: msg.username, pass: msg.password })
     .then((user) => {
       console.log(user);
       callback(null, user);

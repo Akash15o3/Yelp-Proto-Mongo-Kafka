@@ -8,7 +8,7 @@ function handle_request(msg, callback) {
     msg.password
   );
   signupcustModel
-    .findOne({ email: msg.username })
+    .findOne({ email: msg.username, pass: msg.password })
     .then((user) => {
       console.log("User", user);
       return callback(null, user);

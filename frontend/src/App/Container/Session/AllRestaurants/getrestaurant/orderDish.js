@@ -31,6 +31,9 @@ class Order extends React.Component {
       deliveryStatus: "",
       timeOfOrder: orderTime,
     };
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
 
     axios
       .post("http://localhost:3001/insertOrder", orderData)

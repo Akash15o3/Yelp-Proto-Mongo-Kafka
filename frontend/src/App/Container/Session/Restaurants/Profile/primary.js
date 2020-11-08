@@ -11,6 +11,8 @@ class Primary extends React.Component {
     this.state = {
       //   email: "",
       data: [],
+      prof_pic: "",
+      dish_pic: "",
     };
   }
 
@@ -19,17 +21,20 @@ class Primary extends React.Component {
       email: localStorage.getItem("username"),
     };
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
     //make a post request with the user data
     axios
       .get(
-        "http://localhost:3001/getRest?email=" +
+        "http://localhost:3001/restaurant_profile/getRest?email=" +
           localStorage.getItem("username")
       )
       .then((response) => {
         if (response.status === 200) {
           this.setState({
             error: "",
-            data: [response.data],
+            data: response.data,
           });
           // console.log("Test", response.data);
           //console.log("Test",this.);
@@ -67,21 +72,38 @@ class Primary extends React.Component {
         reviews,
         website,
 
-        // prof_pic,
+        prof_pic,
+        dish_pic,
       }) => {
-        // var pic;
-        // if (prof_pic == "" || prof_pic == null || prof_pic == undefined) {
-        //   pic = "/profile.png";
-        // } else {
-        //   pic =
-        //     `http://localhost:3001/prof_pic/` +
-        //     prof_pic.replace("prof_pic", "file") +
-        //     `.jpeg`;
-        // }
+        var pic;
+        if (prof_pic == "" || prof_pic == null || prof_pic == undefined) {
+          pic = "/profile.png";
+        } else {
+          pic =
+            `http://localhost:3001/prof_pic/` +
+            prof_pic.replace("prof_pic", "file") +
+            `.jpeg`;
+        }
+        var dpic;
+        if (dish_pic == "" || dish_pic == null || dish_pic == undefined) {
+          dpic = "/profile.png";
+        } else {
+          dpic =
+            `http://localhost:3001/prof_pic/` +
+            dish_pic.replace("dish_pic", "file") +
+            `.jpeg`;
+        }
         return (
           <Container key={restaurantID}>
             <Row className={"padding-bottom-15 background"}>
               <Col xl={11} style={{ width: 100 + "%" }}>
+                <Col xl={1}>
+                  <img
+                    src={pic}
+                    alt="user pic"
+                    style={{ width: 100 + "px", marginTop: 20 + "px" }}
+                  />
+                </Col>
                 <Container>
                   <Row className="top-10 mleft-10">
                     <Container>
@@ -120,6 +142,14 @@ class Primary extends React.Component {
               </Col>
 
               <Col xl={4} style={{ paddingRight: 0 + "px", width: 100 + "%" }}>
+                <h4>Dish Picture</h4>
+                <Col xl={1}>
+                  <img
+                    src={dpic}
+                    alt="user pic"
+                    style={{ width: 200 + "px", marginTop: 20 + "px" }}
+                  />
+                </Col>
                 <Contact
                   email={email}
                   website={website}

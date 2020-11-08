@@ -17,11 +17,14 @@ class EventDes extends React.Component {
       error: "",
       eventname: "",
       filterflag: 0,
+      filterdesc: 0,
       dataListSearch: [],
+      datadesc: [],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.clearFlag = this.clearFlag.bind(this);
+    this.doDesc = this.doDesc.bind(this);
   }
   handleChange = (e) => {
     this.setState({
@@ -30,8 +33,11 @@ class EventDes extends React.Component {
     console.log(e.target.value, "state", this.state.eventname);
   };
   getInfo = () => {
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
     axios
-      .get("http://localhost:3001/getAllEvents")
+      .get("http://localhost:3001/events/getAllEvents")
       .then((response) => {
         if (response.status === 200) {
           this.setState({
@@ -53,14 +59,46 @@ class EventDes extends React.Component {
       });
   };
 
+  doDesc(e1) {
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
+    axios
+      .get("http://localhost:3001/events/getAllEventsDesc")
+      .then((response) => {
+        if (response.status === 200) {
+          this.setState({
+            error: "",
+            datadesc: response.data,
+          });
+          this.getInfo();
+          console.log("response for event desc", this.state.datadesc);
+        } else {
+          this.setState({
+            error:
+              "<p style={{color: red}}>Please enter correct credentials</p>",
+            authFlag: false,
+          });
+        }
+      })
+      .catch((e) => {
+        this.setState({
+          error: "Please enter correct credentials" + e,
+        });
+      });
+    this.setState({ filterdesc: 1 });
+    this.setState({ filterflag: 2 });
+  }
   handleSubmit(e1) {
     console.log("name", this.state.eventname);
     // console.log(this.fnameChange, this.fnameChange.firstname);
     axios.defaults.withCredentials = true;
-
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
     axios
       .get(
-        "http://localhost:3001/alleventssearch?eventname=" +
+        "http://localhost:3001/events/alleventssearch?eventname=" +
           this.state.eventname
       )
       .then((response) => {
@@ -102,6 +140,72 @@ class EventDes extends React.Component {
 
   render() {
     const filterflag = this.state.filterflag;
+    const filterdesc = this.state.filterdesc;
+    // if (filterdesc === 0) {
+    //   var printEvent = this.state.data.map(
+    //     ({
+    //       restaurantemail,
+    //       restaurantname,
+    //       customeremail,
+    //       customername,
+    //       eventID,
+    //       eventname,
+    //       description,
+    //       timeofevent,
+    //       date,
+    //       location,
+    //       hashtag,
+    //     }) => {
+    //       return (
+    //         <Event
+    //           id={eventID}
+    //           key={eventID}
+    //           restaurantemail={restaurantemail}
+    //           location={location}
+    //           restaurantname={restaurantname}
+    //           eventname={eventname}
+    //           description={description}
+    //           timeofevent={timeofevent}
+    //           date={date}
+    //           hashtag={hashtag}
+    //           timeofevent={timeofevent}
+    //         />
+    //       );
+    //     }
+    //   );
+    // } else if (filterdesc === 1) {
+    //   var printEvent = this.state.datadesc.map(
+    //     ({
+    //       restaurantemail,
+    //       restaurantname,
+    //       customeremail,
+    //       customername,
+    //       eventID,
+    //       eventname,
+    //       description,
+    //       timeofevent,
+    //       date,
+    //       location,
+    //       hashtag,
+    //     }) => {
+    //       return (
+    //         <Event
+    //           id={eventID}
+    //           key={eventID}
+    //           restaurantemail={restaurantemail}
+    //           location={location}
+    //           restaurantname={restaurantname}
+    //           eventname={eventname}
+    //           description={description}
+    //           timeofevent={timeofevent}
+    //           date={date}
+    //           hashtag={hashtag}
+    //           timeofevent={timeofevent}
+    //         />
+    //       );
+    //     }
+    //   );
+    // }
     if (filterflag === 0) {
       var printEvent = this.state.data.map(
         ({
@@ -166,6 +270,38 @@ class EventDes extends React.Component {
           );
         }
       );
+    } else if (filterflag === 2) {
+      var printEvent = this.state.datadesc.map(
+        ({
+          restaurantemail,
+          restaurantname,
+          customeremail,
+          customername,
+          eventID,
+          eventname,
+          description,
+          timeofevent,
+          date,
+          location,
+          hashtag,
+        }) => {
+          return (
+            <Event
+              id={eventID}
+              key={eventID}
+              restaurantemail={restaurantemail}
+              location={location}
+              restaurantname={restaurantname}
+              eventname={eventname}
+              description={description}
+              timeofevent={timeofevent}
+              date={date}
+              hashtag={hashtag}
+              timeofevent={timeofevent}
+            />
+          );
+        }
+      );
     }
 
     return (
@@ -189,10 +325,7 @@ class EventDes extends React.Component {
           Clear Search
         </Button>
         <br></br>
-        <h4>Sort By Time Of Event</h4>
-        <Button variant="danger" onClick={this.doAsc}>
-          Ascending
-        </Button>
+        <h4>Sort By Time Of Event (by Default Ascending)</h4>
         <br></br>
         <Button variant="danger" onClick={this.doDesc}>
           Descending

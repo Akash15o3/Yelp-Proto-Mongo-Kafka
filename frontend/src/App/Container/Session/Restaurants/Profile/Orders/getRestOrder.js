@@ -235,11 +235,7 @@ class RestOrder extends React.Component {
                               </select>
                             </h6>
                           </Row>
-                          <Row>
-                            <h6 className="small-grey">
-                              Delivery Type : {deliveryType}
-                            </h6>
-                          </Row>
+                          <Row></Row>
                           <Row>
                             <h6 className="small-grey">
                               Dishes Ordered : {dishOrder}

@@ -56,9 +56,12 @@ class Contact extends React.Component {
   getdishInfo = () => {
     axios.defaults.withCredentials = true;
     //make a post request with the user data
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
     axios
       .get(
-        "http://localhost:3001/getDish?restaurantemail=" +
+        "http://localhost:3001/restaurant_profile/getDish?restaurantemail=" +
           localStorage.getItem("username")
       )
       .then((response) => {
@@ -94,6 +97,9 @@ class Contact extends React.Component {
       dish_ing: this.state.dish_ing,
     };
     console.log("datadata", data);
+    // axios.defaults.headers.common["authorization"] = localStorage.getItem(
+    //   "token"
+    // );
     axios
       .post("http://localhost:3001/addDish", data)
       .then((response) => {

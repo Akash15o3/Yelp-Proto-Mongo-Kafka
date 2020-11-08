@@ -1,4 +1,25 @@
 const orderdishModel = require("./Models/orderDishModel");
+const signuprestModel = require("./Models/signuprestModel");
+var express = require("express");
+const router = express.Router();
+const { checkAuth } = require("./passport");
+var kafka = require("./Kafka/client");
+
+// router.post("/insertOrder", checkAuth, (req, res) => {
+//   kafka.make_request("insert_Order", req.body, function (err, results) {
+//     console.log("in result");
+//     console.log(results);
+//     if (err) {
+//       res.status(500).end("Error Occured");
+//     } else {
+//       console.log("Inside else");
+//       console.log(results);
+//       var JSONStr = JSON.stringify(results);
+//       res.status(200).end(JSONStr);
+//     }
+//   });
+// });
+// module.exports = router;
 var orders = class orders {
   insertOrder(req, res) {
     console.log("connected");
@@ -49,7 +70,7 @@ var orders = class orders {
     console.log("My Cust Email", req.query.customerEmailForOrder);
     const limit = parseInt(req.query.limit); // Make sure to parse the limit to number
     const skip = parseInt(req.query.skip);
-
+    var mysort = { timestamp: 1 };
     orderdishModel
       .find(
         { customerEmailForOrder: req.query.customerEmailForOrder },
@@ -68,7 +89,34 @@ var orders = class orders {
         }
       )
       .skip(skip)
-      .limit(limit);
+      .limit(limit)
+      .sort(mysort);
+  }
+  getCustOrderDesc(req, res) {
+    console.log("My Cust Email", req.query.customerEmailForOrder);
+    const limit = parseInt(req.query.limit); // Make sure to parse the limit to number
+    const skip = parseInt(req.query.skip);
+    var mysort = { timestamp: -1 };
+    orderdishModel
+      .find(
+        { customerEmailForOrder: req.query.customerEmailForOrder },
+        (error, result) => {
+          if (error) {
+            res.writeHead(500, {
+              "Content-Type": "text/plain",
+            });
+            res.end();
+          } else {
+            res.writeHead(200, {
+              "Content-Type": "application/json",
+            });
+            res.end(JSON.stringify(result));
+          }
+        }
+      )
+      .skip(skip)
+      .limit(limit)
+      .sort(mysort);
   }
 
   getRestOrder(req, res) {

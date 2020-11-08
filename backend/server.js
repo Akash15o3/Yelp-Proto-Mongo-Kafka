@@ -1,4 +1,5 @@
 const express = require("express");
+
 var app = express();
 var bodyParser = require("body-parser");
 var session = require("express-session");
@@ -6,16 +7,17 @@ var cookieParser = require("cookie-parser");
 const multer = require("multer");
 var cors = require("cors");
 
-const events = require("./events");
-const insert = require("./insert");
-const login = require("./login");
-const cust_profile = require("./profile");
-const rest = require("./restaurant");
-const restA = require("./rest");
-const orders = require("./orders");
-const allusers = require("./allusers");
-const follower = require("./follower");
-const messages = require("./messages");
+// const events = require("./events");
+// const insert = require("./insert");
+// const login = require("./login");
+// const cust_profile = require("./profile");
+// const rest = require("./restaurant");
+// const restA = require("./rest");
+// const orders = require("./orders");
+// const allusers = require("./allusers");
+// const follower = require("./follower");
+// const messages = require("./messages");
+const { checkAuth } = require("./passport");
 
 app.set("view engine", "ejs");
 app.use("/prof_pic", express.static("public/uploads"));
@@ -68,39 +70,41 @@ mongoose.connect(mongoDB, options, (err, res) => {
   }
 });
 
-storage = multer.diskStorage({
-  destination: "./public/uploads",
+const storage = multer.diskStorage({
+  destination: "./public/uploads/",
   filename: function (req, file, cb) {
     console.log("file send", file);
-    cb(null, `${new Date()}-${file.fieldname}.${file.mimetype.split("/")[1]}`);
+    cb(null, `${file.originalname}.${file.mimetype.split("/")[1]}`);
   },
 });
 
-upload = multer({ storage });
+const upload = multer({
+  storage: storage,
+});
 
 app.post("/files", upload.single("file"), (req, res) => {
-  console.log("Req Body for picture: ", req.body);
+  console.log("In Upload Function    ----", req.body);
   res.writeHead(200, {
     "Content-Type": "application/json",
   });
-  res.end(`${new Date()}-${req.body.name}`);
+  res.end(`${req.body.name}`);
 });
 
 app.post("/signupcust", function (req, res) {
-  console.log("Req Body : ", req.body);
+  //console.log("Req Body : ", req.body);
   var ins = new insert.insert();
   ins.insert_cust(req, res);
 });
 
 app.post("/signuprest", function (req, res) {
-  console.log("Req Body : ", req.body);
+  //console.log("Req Body : ", req.body);
   var ins = new insert.insert();
   ins.insert_rest(req, res);
 });
 
 //Route to handle Post Request Call
 app.post("/logincust", function (req, res) {
-  console.log("Req Body : ", req.body);
+  //console.log("Req Body : ", req.body);
   var ins = new login.login();
   ins.login_cust(req, res);
 });
@@ -111,65 +115,122 @@ app.post("/loginrest", function (req, res) {
   ins.login_rest(req, res);
 });
 
-app.get("/getRest", function (req, res) {
-  console.log("Req Body : ", req.body);
-  var get = new rest.restaurant();
-  get.getrest(req, res);
-});
+const events = require("./events");
+const insert = require("./insert");
+const login = require("./login");
+const cust_profile = require("./profile");
+const rest = require("./restaurant");
+const restA = require("./rest");
+const orders = require("./orders");
+const allusers = require("./allusers");
+const follower = require("./follower");
+const messages = require("./messages");
+const pic = require("./pic");
+
+app.use("/cust_profile", cust_profile);
+app.use("/restaurant_profile", rest);
+app.use("/allrestaurant", restA);
+
+// app.get("/getRest", function (req, res) {
+//   //console.log("Req Body : ", req.body);
+//   var get = new rest.restaurant();
+//   get.getrest(req, res);
+// });
+
+// app.post("/rest_profile", function (req, res) {
+//   console.log("Req Body : ", req.body);
+//   var get = new rest.restaurant();
+//   get.gettestrest(req, res);
+// });
 
 app.post("/rest_profile", function (req, res) {
   console.log("Req Body : ", req.body);
-  var get = new rest.restaurant();
+  var get = new pic.pic();
   get.gettestrest(req, res);
 });
 
-app.post("/customer_profile", function (req, res) {
+app.post("/updateProfPic", function (req, res) {
   console.log("Req Body : ", req.body);
-  var get = new cust_profile.profile();
+  var ins = new pic.pic();
+  ins.updateprofinfo(req, res);
+});
+
+app.post("/updateProfPicRest", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var get = new pic.pic();
+  get.updateprofinfo(req, res);
+});
+
+app.post("/updateDishPicRest", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var get = new pic.pic();
+  get.updatedishinfo(req, res);
+});
+app.post("/customer_profile", function (req, res) {
+  //console.log("Req Body : ", req.body);
+  var get = new pic.pic();
   get.gettestcust(req, res);
 });
 
-app.post("/updateRest", function (req, res) {
-  console.log("Req Body : ", req.body);
-  var get = new rest.restaurant();
-  get.updatebasicinfo(req, res);
-});
-
 app.post("/addDish", function (req, res) {
-  console.log("Req Body : ", req.body);
-  var get = new rest.restaurant();
+  // console.log("Req Body : ", req.body);
+  var get = new pic.pic();
   get.adddish(req, res);
 });
 
 app.get("/getDish", function (req, res) {
-  console.log("Req Body : ", req.body);
-  var get = new rest.restaurant();
+  // console.log("Req Body : ", req.body);
+  var get = new pic.pic();
   get.getdish(req, res);
 });
 
-app.get("/cust_profile", function (req, res) {
+app.get("/allusersfilter", function (req, res) {
   console.log("Req Body : ", req.body);
-  var ins = new cust_profile.profile();
-  ins.getbasicinfo(req, res);
+  var get = new pic.pic();
+  get.filterallusers(req, res);
 });
 
-app.post("/updatePersonal", function (req, res) {
-  console.log("Req Body : ", req.body);
-  var ins = new cust_profile.profile();
-  ins.updatebasicinfo(req, res);
-});
+// app.post("/customer_profile", function (req, res) {
+//   //console.log("Req Body : ", req.body);
+//   var get = new cust_profile.profile();
+//   get.gettestcust(req, res);
+// });
 
-app.get("/getAllRest", function (req, res) {
-  console.log("Req Body : ", req.body);
-  var rest = new restA.rest();
-  rest.getAllRest(req, res);
-});
+// app.post("/updateRest", function (req, res) {
+//   // console.log("Req Body : ", req.body);
+//   var get = new rest.restaurant();
+//   get.updatebasicinfo(req, res);
+// });
 
-app.get("/allrestsearch", function (req, res) {
-  console.log("Req Body : ", req.body);
-  var rest = new restA.rest();
-  rest.getAllRestSearch(req, res);
-});
+// app.get("/getDish", function (req, res) {
+//   // console.log("Req Body : ", req.body);
+//   var get = new rest.restaurant();
+//   get.getdish(req, res);
+// });
+
+// app.get("/cust_profile", function (req, res) {
+//   // console.log("Req Body : ", req.body);
+//   var ins = new cust_profile.profile();
+//   ins.getbasicinfo(req, res);
+// });
+
+// app.post("/updatePersonal", function (req, res) {
+//   // console.log("Req Body : ", req.body);
+//   var ins = new cust_profile.profile();
+//   ins.updatebasicinfo(req, res);
+// });
+
+// app.get("/getAllRest", function (req, res) {
+//   console.log("Req Body : ", req.body);
+//   var rest = new restA.rest();
+//   rest.getAllRest(req, res);
+// });
+
+// app.get("/allrestsearch", function (req, res) {
+//   console.log("Req Body : ", req.body);
+//   var rest = new restA.rest();
+//   rest.getAllRestSearch(req, res);
+// });
 
 app.post("/insertOrder", function (req, res) {
   console.log("Req Body : ", req.body);
@@ -189,6 +250,12 @@ app.get("/getCustOrder", function (req, res) {
   order.getCustOrder(req, res);
 });
 
+app.get("/getCustOrderDesc", function (req, res) {
+  console.log("Req Body : ", req.body);
+  var order = new orders.orders();
+  order.getCustOrderDesc(req, res);
+});
+
 app.get("/getRestOrder", function (req, res) {
   console.log("Req Body : ", req.body);
   var order = new orders.orders();
@@ -206,65 +273,73 @@ app.get("/orderbystatuscustomer", function (req, res) {
   var order = new orders.orders();
   order.getCustByStatus(req, res);
 });
+
 app.post("/updateOrderStatus", function (req, res) {
   console.log("Req Body : ", req.body);
   var order = new orders.orders();
   order.updateOrderStatus(req, res);
 });
+//////////////////////////////////////////////////////
 
-app.post("/addEvent", function (req, res) {
-  console.log("Req Body : ", req.body);
-  var get = new events.events();
-  get.addevent(req, res);
-});
+app.use("/events", events);
 
-app.get("/getEvent", function (req, res) {
-  console.log("Req Body : ", req.body);
-  var get = new events.events();
-  get.getevent(req, res);
-});
+// app.post("/addEvent", function (req, res) {
+//   console.log("Req Body : ", req.body);
+//   var get = new events.events();
+//   get.addevent(req, res);
+// });
 
-app.get("/getAllEvents", function (req, res) {
-  console.log("Req Body : ", req.body);
-  var get = new events.events();
-  get.getAllEvent(req, res);
-});
+// app.get("/getEvent", function (req, res) {
+//   console.log("Req Body : ", req.body);
+//   var get = new events.events();
+//   get.getevent(req, res);
+// });
 
-app.get("/getAllUsers", function (req, res) {
-  console.log("Req Body : ", req.body);
-  var get = new allusers.allusers();
-  get.getAllUsers(req, res);
-});
+// app.get("/getAllEvents", function (req, res) {
+//   console.log("Req Body : ", req.body);
+//   var get = new events.events();
+//   get.getAllEvent(req, res);
+// });
 
-app.post("/applyEvent", function (req, res) {
-  console.log("Req Body : ", req.body);
-  var get = new events.events();
-  get.applyEvent(req, res);
-});
+// app.get("/getAllEventsDesc", function (req, res) {
+//   console.log("Req Body : ", req.body);
+//   var get = new events.events();
+//   get.getAllEventDesc(req, res);
+// });
 
-app.get("/getAppliedEvents", function (req, res) {
-  console.log("Req Body : ", req.body);
-  var get = new events.events();
-  get.getAppliedEvents(req, res);
-});
+// app.post("/applyEvent", function (req, res) {
+//   console.log("Req Body : ", req.body);
+//   var get = new events.events();
+//   get.applyEvent(req, res);
+// });
 
-app.get("/alleventssearch", function (req, res) {
-  console.log("Req Body search : ", req.body);
-  var get = new events.events();
-  get.getalleventssearch(req, res);
-});
+// app.get("/getAppliedEvents", function (req, res) {
+//   console.log("Req Body : ", req.body);
+//   var get = new events.events();
+//   get.getAppliedEvents(req, res);
+// });
 
-app.get("/allusers", function (req, res) {
-  console.log("Req Body : ", req.body);
-  var get = new allusers.allusers();
-  get.searchallusers(req, res);
-});
+// app.get("/alleventssearch", function (req, res) {
+//   console.log("Req Body search : ", req.body);
+//   var get = new events.events();
+//   get.getalleventssearch(req, res);
+// });
 
-app.get("/allusersfilter", function (req, res) {
-  console.log("Req Body : ", req.body);
-  var get = new allusers.allusers();
-  get.filterallusers(req, res);
-});
+///////////////////////////////////////////
+app.use("/users", allusers);
+// app.use("/following", follower);
+
+// app.get("/getAllUsers", function (req, res) {
+//   console.log("Req Body : ", req.body);
+//   var get = new allusers.allusers();
+//   get.getAllUsers(req, res);
+// });
+
+// app.get("/allusers", function (req, res) {
+//   console.log("Req Body : ", req.body);
+//   var get = new allusers.allusers();
+//   get.searchallusers(req, res);
+// });
 
 app.post("/insertFollower", function (req, res) {
   console.log("Req Body : ", req.body);

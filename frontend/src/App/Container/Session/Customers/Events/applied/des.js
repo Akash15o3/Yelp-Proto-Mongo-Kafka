@@ -22,9 +22,13 @@ class EventDes extends React.Component {
   }
 
   getInfo = () => {
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
     axios
+
       .get(
-        "http://localhost:3001/getAppliedEvents?customeremail=" +
+        "http://localhost:3001/events/getAppliedEvents?customeremail=" +
           localStorage.getItem("username")
       )
       .then((response) => {

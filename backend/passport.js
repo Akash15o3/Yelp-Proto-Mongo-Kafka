@@ -3,7 +3,7 @@ var ExtractJwt = require("passport-jwt").ExtractJwt;
 const passport = require("passport");
 var { secret } = require("./config");
 const Cust_Profile = require("./Models/signupcustModel");
-const Rest_profile = require("./Models/signuprestModel");
+const Rest_Profile = require("./Models/signuprestModel");
 
 function auth() {
   console.log(secret);

@@ -44,9 +44,12 @@ class RestDes extends React.Component {
   };
 
   getInfo = () => {
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
     axios
       .get(
-        "http://localhost:3001/getAllRest?limit=" +
+        "http://localhost:3001/allrestaurant/getAllRest?limit=" +
           this.state.limit +
           "&skip=" +
           this.state.skip
@@ -74,12 +77,17 @@ class RestDes extends React.Component {
 
   handleSubmit(e1) {
     console.log("city", this.state.city);
+
     // console.log(this.fnameChange, this.fnameChange.firstname);
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
 
     axios
       .get(
-        "http://localhost:3001/allrestsearch?location=" + this.state.location
+        "http://localhost:3001/allrestaurant/allrestsearch?location=" +
+          this.state.location
       )
       .then((response) => {
         if (response.status === 200) {

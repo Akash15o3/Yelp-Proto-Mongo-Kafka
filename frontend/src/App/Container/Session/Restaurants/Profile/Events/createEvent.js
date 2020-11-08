@@ -77,15 +77,14 @@ class addEvent extends React.Component {
 
   geteventInfo = () => {
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
     //make a post request with the user data
     axios
       .get(
-        "http://localhost:3001/getEvent?restaurantemail=" +
-          localStorage.getItem("username") +
-          "?limit=" +
-          this.state.limit +
-          "&skip=" +
-          this.state.skip
+        "http://localhost:3001/events/getEvent?restaurantemail=" +
+          localStorage.getItem("username")
       )
       .then((response) => {
         if (response.status === 200) {
@@ -121,13 +120,17 @@ class addEvent extends React.Component {
       timeofevent: this.state.timeofevent,
       hashtag: this.state.hashtag,
     };
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
     axios
-      .post("http://localhost:3001/addEvent", data)
+      .post("http://localhost:3001/events/addEvent", data)
       .then((response) => {
         this.setState({
           success: true,
         });
         this.geteventInfo();
+        alert("Event created");
       })
       .catch((error) => {
         this.setState({

@@ -18,6 +18,7 @@ var signupCustSchema = new Schema(
     about: { type: String, required: true },
     findmein: { type: String, required: true },
     myblog: { type: String, required: true },
+    prof_pic: { type: String, required: false },
   },
   {
     versionKey: false,

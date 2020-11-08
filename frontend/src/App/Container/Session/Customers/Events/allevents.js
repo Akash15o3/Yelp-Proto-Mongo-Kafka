@@ -34,9 +34,11 @@ class Event extends React.Component {
       location: this.props.location,
       hashtag: this.props.hashtag,
     };
-
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
     axios
-      .post("http://localhost:3001/applyEvent", data)
+      .post("http://localhost:3001/events/applyEvent", data)
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {

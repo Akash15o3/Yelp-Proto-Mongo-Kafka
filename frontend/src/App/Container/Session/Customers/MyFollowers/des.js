@@ -20,6 +20,9 @@ class FollowerDes extends React.Component {
   }
 
   getInfo = () => {
+    axios.defaults.headers.common["authorization"] = localStorage.getItem(
+      "token"
+    );
     axios
       .get(
         "http://localhost:3001/getFollowers?customername=" +

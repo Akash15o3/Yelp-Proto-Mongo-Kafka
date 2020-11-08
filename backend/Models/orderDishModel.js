@@ -13,6 +13,7 @@ var orderdishSchema = new Schema(
     pickupStatus: { type: String, required: false },
     deliveryStatus: { type: String, required: false },
     timeOfOrder: { type: String, required: false },
+    timestamp: { type: Date, default: Date.now },
   },
   {
     versionKey: false,

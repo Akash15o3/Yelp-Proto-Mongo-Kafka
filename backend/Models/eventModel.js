@@ -12,6 +12,7 @@ var eventSchema = new Schema(
     date: { type: String, required: false },
     location: { type: String, required: false },
     hashtag: { type: String, required: false },
+    timestamp: { type: Date, default: Date.now },
   },
   {
     versionKey: false,
