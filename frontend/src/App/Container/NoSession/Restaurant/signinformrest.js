@@ -42,7 +42,7 @@ class signupform extends Component {
     axios.defaults.withCredentials = true;
     //make a post request with the user data
     axios
-      .post("http://localhost:3001/loginrest", data)
+      .post("http://18.144.11.212:3001/loginrest", data)
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {

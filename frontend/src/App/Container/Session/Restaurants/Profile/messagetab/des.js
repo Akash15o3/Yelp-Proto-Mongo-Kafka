@@ -16,7 +16,7 @@ class MessageDes extends React.Component {
   getInfo = () => {
     axios
       .get(
-        "http://localhost:3001/getAllMessages?restaurantemail=" +
+        "http://18.144.11.212:3001/getAllMessages?restaurantemail=" +
           sessionStorage.getItem("restaurantEmailForOrder")
       )
       .then((response) => {

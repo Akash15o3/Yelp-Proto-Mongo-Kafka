@@ -25,7 +25,7 @@ class Cust_Profile extends React.Component {
     axios.defaults.withCredentials = true;
     //make a post request with the user data
     axios
-      .post("http://localhost:3001/customer_profile", data)
+      .post("http://18.144.11.212:3001/customer_profile", data)
       .then((response) => {
         if (response.status === 200) {
           this.setState({

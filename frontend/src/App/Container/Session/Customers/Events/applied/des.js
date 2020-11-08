@@ -28,7 +28,7 @@ class EventDes extends React.Component {
     axios
 
       .get(
-        "http://localhost:3001/events/getAppliedEvents?customeremail=" +
+        "http://18.144.11.212:3001/events/getAppliedEvents?customeremail=" +
           localStorage.getItem("username")
       )
       .then((response) => {

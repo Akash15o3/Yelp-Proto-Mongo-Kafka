@@ -61,7 +61,7 @@ class Contact extends React.Component {
     );
     axios
       .get(
-        "http://localhost:3001/restaurant_profile/getDish?restaurantemail=" +
+        "http://18.144.11.212:3001/restaurant_profile/getDish?restaurantemail=" +
           localStorage.getItem("username")
       )
       .then((response) => {
@@ -101,7 +101,7 @@ class Contact extends React.Component {
     //   "token"
     // );
     axios
-      .post("http://localhost:3001/addDish", data)
+      .post("http://18.144.11.212:3001/addDish", data)
       .then((response) => {
         this.setState({
           success: true,

@@ -38,7 +38,7 @@ class RestOrder extends React.Component {
 
     axios
       .get(
-        "http://localhost:3001/orderbystatus?status=" +
+        "http://18.144.11.212:3001/orderbystatus?status=" +
           this.state.status +
           "&restaurantEmailForOrder=" +
           sessionStorage.getItem("restaurantEmailForOrder")
@@ -86,7 +86,7 @@ class RestOrder extends React.Component {
     };
 
     axios
-      .post("http://localhost:3001/updateOrderStatus", data)
+      .post("http://18.144.11.212:3001/updateOrderStatus", data)
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {
@@ -120,7 +120,7 @@ class RestOrder extends React.Component {
 
     axios
       .get(
-        "http://localhost:3001/getRestOrder?restaurantEmailForOrder=" +
+        "http://18.144.11.212:3001/getRestOrder?restaurantEmailForOrder=" +
           orderData.restaurantEmailForOrder +
           "&limit=" +
           this.state.limit +

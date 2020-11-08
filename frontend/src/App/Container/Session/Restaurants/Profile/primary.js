@@ -27,7 +27,7 @@ class Primary extends React.Component {
     //make a post request with the user data
     axios
       .get(
-        "http://localhost:3001/restaurant_profile/getRest?email=" +
+        "http://18.144.11.212:3001/restaurant_profile/getRest?email=" +
           localStorage.getItem("username")
       )
       .then((response) => {
@@ -80,7 +80,7 @@ class Primary extends React.Component {
           pic = "/profile.png";
         } else {
           pic =
-            `http://localhost:3001/prof_pic/` +
+            `http://18.144.11.212:3001/prof_pic/` +
             prof_pic.replace("prof_pic", "file") +
             `.jpeg`;
         }
@@ -89,7 +89,7 @@ class Primary extends React.Component {
           dpic = "/profile.png";
         } else {
           dpic =
-            `http://localhost:3001/prof_pic/` +
+            `http://18.144.11.212:3001/prof_pic/` +
             dish_pic.replace("dish_pic", "file") +
             `.jpeg`;
         }

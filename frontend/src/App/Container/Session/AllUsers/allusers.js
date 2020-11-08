@@ -21,7 +21,7 @@ class User extends React.Component {
       "token"
     );
     axios
-      .post("http://localhost:3001/insertFollower", myfollowers)
+      .post("http://18.144.11.212:3001/insertFollower", myfollowers)
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {

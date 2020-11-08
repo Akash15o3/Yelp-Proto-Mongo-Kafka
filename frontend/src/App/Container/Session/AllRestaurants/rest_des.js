@@ -49,7 +49,7 @@ class RestDes extends React.Component {
     );
     axios
       .get(
-        "http://localhost:3001/allrestaurant/getAllRest?limit=" +
+        "http://18.144.11.212:3001/allrestaurant/getAllRest?limit=" +
           this.state.limit +
           "&skip=" +
           this.state.skip
@@ -86,7 +86,7 @@ class RestDes extends React.Component {
 
     axios
       .get(
-        "http://localhost:3001/allrestaurant/allrestsearch?location=" +
+        "http://18.144.11.212:3001/allrestaurant/allrestsearch?location=" +
           this.state.location
       )
       .then((response) => {

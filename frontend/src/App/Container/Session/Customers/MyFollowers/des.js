@@ -25,7 +25,7 @@ class FollowerDes extends React.Component {
     );
     axios
       .get(
-        "http://localhost:3001/getFollowers?customername=" +
+        "http://18.144.11.212:3001/getFollowers?customername=" +
           localStorage.getItem("username")
       )
       .then((response) => {

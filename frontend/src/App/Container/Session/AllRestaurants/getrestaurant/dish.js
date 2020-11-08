@@ -34,7 +34,7 @@ class Dish extends React.Component {
     console.log("in dish", data.email);
     //make a post request with the user data
     axios
-      .get("http://localhost:3001/getDish?restaurantemail=" + data.email)
+      .get("http://18.144.11.212:3001/getDish?restaurantemail=" + data.email)
       .then((response) => {
         if (response.status === 200) {
           this.setState({

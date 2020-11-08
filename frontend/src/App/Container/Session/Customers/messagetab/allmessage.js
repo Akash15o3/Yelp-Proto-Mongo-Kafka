@@ -43,7 +43,7 @@ class User extends React.Component {
       sender: sessionStorage.getItem("typeofuser"),
     };
     axios
-      .post("http://localhost:3001/insertMessage", data)
+      .post("http://18.144.11.212:3001/insertMessage", data)
       .then((response) => {
         if (response.status === 200) {
           this.setState({

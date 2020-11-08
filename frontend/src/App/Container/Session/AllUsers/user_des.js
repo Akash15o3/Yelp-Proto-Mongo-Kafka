@@ -61,7 +61,7 @@ class UserDes extends React.Component {
     );
     axios
       .get(
-        "http://localhost:3001/users/getAllUsers?limit=" +
+        "http://18.144.11.212:3001/users/getAllUsers?limit=" +
           this.state.limit +
           "&skip=" +
           this.state.skip
@@ -96,7 +96,7 @@ class UserDes extends React.Component {
       "token"
     );
     axios
-      .get("http://localhost:3001/users/allusers?fname=" + this.state.fname)
+      .get("http://18.144.11.212:3001/users/allusers?fname=" + this.state.fname)
       .then((response) => {
         if (response.status === 200) {
           this.setState({
@@ -128,7 +128,7 @@ class UserDes extends React.Component {
       "token"
     );
     axios
-      .get("http://localhost:3001/allusersfilter?city=" + this.state.city)
+      .get("http://18.144.11.212:3001/allusersfilter?city=" + this.state.city)
       .then((response) => {
         if (response.status === 200) {
           this.setState({

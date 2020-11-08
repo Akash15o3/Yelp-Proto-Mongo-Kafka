@@ -37,7 +37,7 @@ class CustOrder extends React.Component {
 
     axios
       .get(
-        "http://localhost:3001/orderbystatuscustomer?status=" +
+        "http://18.144.11.212:3001/orderbystatuscustomer?status=" +
           this.state.status +
           "&customerEmailForOrder=" +
           localStorage.getItem("username")
@@ -84,7 +84,7 @@ class CustOrder extends React.Component {
 
     axios
       .get(
-        "http://localhost:3001/getCustOrderDesc?customerEmailForOrder=" +
+        "http://18.144.11.212:3001/getCustOrderDesc?customerEmailForOrder=" +
           orderData.customerEmailForOrder +
           "&limit=" +
           this.state.limit +
@@ -124,7 +124,7 @@ class CustOrder extends React.Component {
 
     axios
       .get(
-        "http://localhost:3001/getCustOrder?customerEmailForOrder=" +
+        "http://18.144.11.212:3001/getCustOrder?customerEmailForOrder=" +
           orderData.customerEmailForOrder +
           "&limit=" +
           this.state.limit +

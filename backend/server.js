@@ -22,7 +22,7 @@ const { checkAuth } = require("./passport");
 app.set("view engine", "ejs");
 app.use("/prof_pic", express.static("public/uploads"));
 app.use(cookieParser());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({ origin: "http://13.57.207.198:3000", credentials: true }));
 
 app.use(
   session({
@@ -37,7 +37,7 @@ app.use(
 app.use(bodyParser.json());
 
 app.use(function (req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.setHeader("Access-Control-Allow-Origin", "http://13.57.207.198:3000");
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader(
     "Access-Control-Allow-Methods",

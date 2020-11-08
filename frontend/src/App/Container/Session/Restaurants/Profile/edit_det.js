@@ -98,7 +98,7 @@ class edit extends React.Component {
     );
     //make a post request with the user data
     axios
-      .post("http://localhost:3001/restaurant_profile/updateRest", data)
+      .post("http://18.144.11.212:3001/restaurant_profile/updateRest", data)
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {
@@ -141,7 +141,7 @@ class edit extends React.Component {
     );
     console.log("+++++++++++++++", this.state.backendnProfName);
     axios
-      .post("http://localhost:3001/files", data)
+      .post("http://18.144.11.212:3001/files", data)
       .then((response) => {
         console.log("profile pic upload response", data);
         this.setState({
@@ -152,7 +152,7 @@ class edit extends React.Component {
           restaurantemail: localStorage.getItem("username"),
         };
         axios
-          .post("http://localhost:3001/updateProfPicRest", data2)
+          .post("http://18.144.11.212:3001/updateProfPicRest", data2)
           .then((response) => {
             console.log("Status Code : ", response.status);
             if (response.status === 200) {
@@ -191,7 +191,7 @@ class edit extends React.Component {
     );
     console.log("+++++++++++++++", this.state.backendnProfName);
     axios
-      .post("http://localhost:3001/files", data)
+      .post("http://18.144.11.212:3001/files", data)
       .then((response) => {
         console.log("profile pic upload response", data);
         this.setState({
@@ -202,7 +202,7 @@ class edit extends React.Component {
           restaurantemail: localStorage.getItem("username"),
         };
         axios
-          .post("http://localhost:3001/updateDishPicRest", data3)
+          .post("http://18.144.11.212:3001/updateDishPicRest", data3)
           .then((response) => {
             console.log("Status Code : ", response.status);
             if (response.status === 200) {

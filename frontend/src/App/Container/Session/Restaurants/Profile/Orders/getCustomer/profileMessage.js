@@ -37,7 +37,7 @@ class Cust_Profile extends React.Component {
 
     //make a post request with the user data
     axios
-      .post("http://localhost:3001/customer_profile", data)
+      .post("http://18.144.11.212:3001/customer_profile", data)
       .then((response) => {
         if (response.status === 200) {
           this.setState({
@@ -96,7 +96,7 @@ class Cust_Profile extends React.Component {
     console.log("datafor message", data);
 
     axios
-      .post("http://localhost:3001/insertMessage", data)
+      .post("http://18.144.11.212:3001/insertMessage", data)
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {

@@ -41,7 +41,7 @@ class edit extends React.Component {
   //     },
   //   };
   //   axios
-  //     .post("http://localhost:3001/upload", formData, config)
+  //     .post("http://18.144.11.212:3001/upload", formData, config)
   //     .then((response) => {
   //       alert("The file is successfully uploaded");
   //     })
@@ -170,7 +170,7 @@ class edit extends React.Component {
     );
     //make a post request with the user data
     axios
-      .post("http://localhost:3001/cust_profile/updatePersonal", data)
+      .post("http://18.144.11.212:3001/cust_profile/updatePersonal", data)
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {
@@ -208,7 +208,7 @@ class edit extends React.Component {
     );
     console.log("+++++++++++++++", this.state.backendnProfName);
     axios
-      .post("http://localhost:3001/files", data)
+      .post("http://18.144.11.212:3001/files", data)
       .then((response) => {
         console.log("profile pic upload response", data);
         this.setState({
@@ -222,7 +222,7 @@ class edit extends React.Component {
         //   "token"
         // );
         axios
-          .post("http://localhost:3001/updateProfPic", data2)
+          .post("http://18.144.11.212:3001/updateProfPic", data2)
           .then((response) => {
             console.log("Status Code : ", response.status);
             if (response.status === 200) {

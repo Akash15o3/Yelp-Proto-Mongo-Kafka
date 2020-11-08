@@ -36,7 +36,7 @@ class Order extends React.Component {
     );
 
     axios
-      .post("http://localhost:3001/insertOrder", orderData)
+      .post("http://18.144.11.212:3001/insertOrder", orderData)
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {
@@ -78,7 +78,7 @@ class Order extends React.Component {
       Review: this.state.Review,
     };
     axios
-      .post("http://localhost:3001/insertReview", data)
+      .post("http://18.144.11.212:3001/insertReview", data)
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {

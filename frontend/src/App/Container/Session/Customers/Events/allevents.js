@@ -38,7 +38,7 @@ class Event extends React.Component {
       "token"
     );
     axios
-      .post("http://localhost:3001/events/applyEvent", data)
+      .post("http://18.144.11.212:3001/events/applyEvent", data)
       .then((response) => {
         console.log("Status Code : ", response.status);
         if (response.status === 200) {

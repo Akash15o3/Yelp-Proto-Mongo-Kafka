@@ -83,7 +83,7 @@ class addEvent extends React.Component {
     //make a post request with the user data
     axios
       .get(
-        "http://localhost:3001/events/getEvent?restaurantemail=" +
+        "http://18.144.11.212:3001/events/getEvent?restaurantemail=" +
           localStorage.getItem("username")
       )
       .then((response) => {
@@ -124,7 +124,7 @@ class addEvent extends React.Component {
       "token"
     );
     axios
-      .post("http://localhost:3001/events/addEvent", data)
+      .post("http://18.144.11.212:3001/events/addEvent", data)
       .then((response) => {
         this.setState({
           success: true,

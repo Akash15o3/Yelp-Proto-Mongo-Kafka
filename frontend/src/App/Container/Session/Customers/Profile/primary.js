@@ -26,7 +26,7 @@ class Primary extends React.Component {
     //make a post request with the user data
     axios
       .get(
-        "http://localhost:3001/cust_profile/cust_profile?email=" +
+        "http://18.144.11.212:3001/cust_profile/cust_profile?email=" +
           localStorage.getItem("username")
       )
       .then((response) => {
@@ -91,7 +91,7 @@ class Primary extends React.Component {
           pic = "/profile.png";
         } else {
           pic =
-            `http://localhost:3001/prof_pic/` +
+            `http://18.144.11.212:3001/prof_pic/` +
             prof_pic.replace("prof_pic", "file") +
             `.jpeg`;
           console.log("pic in Primary", pic);

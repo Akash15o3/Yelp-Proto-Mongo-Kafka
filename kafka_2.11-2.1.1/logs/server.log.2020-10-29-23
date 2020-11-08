@@ -1,0 +1,4 @@
+[2020-10-29 23:13:14,804] WARN Exception causing close of session 0x1003264bc1f0000: An existing connection was forcibly closed by the remote host (org.apache.zookeeper.server.NIOServerCnxn)
+[2020-10-29 23:13:14,857] INFO Closed socket connection for client /0:0:0:0:0:0:0:1:51737 which had sessionid 0x1003264bc1f0000 (org.apache.zookeeper.server.NIOServerCnxn)
+[2020-10-29 23:13:20,251] INFO Expiring session 0x1003264bc1f0000, timeout of 6000ms exceeded (org.apache.zookeeper.server.ZooKeeperServer)
+[2020-10-29 23:13:20,260] INFO Processed session termination for sessionid: 0x1003264bc1f0000 (org.apache.zookeeper.server.PrepRequestProcessor)

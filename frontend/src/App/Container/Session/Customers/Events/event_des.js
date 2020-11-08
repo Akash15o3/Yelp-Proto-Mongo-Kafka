@@ -37,7 +37,7 @@ class EventDes extends React.Component {
       "token"
     );
     axios
-      .get("http://localhost:3001/events/getAllEvents")
+      .get("http://18.144.11.212:3001/events/getAllEvents")
       .then((response) => {
         if (response.status === 200) {
           this.setState({
@@ -64,7 +64,7 @@ class EventDes extends React.Component {
       "token"
     );
     axios
-      .get("http://localhost:3001/events/getAllEventsDesc")
+      .get("http://18.144.11.212:3001/events/getAllEventsDesc")
       .then((response) => {
         if (response.status === 200) {
           this.setState({
@@ -98,7 +98,7 @@ class EventDes extends React.Component {
     );
     axios
       .get(
-        "http://localhost:3001/events/alleventssearch?eventname=" +
+        "http://18.144.11.212:3001/events/alleventssearch?eventname=" +
           this.state.eventname
       )
       .then((response) => {
